@@ -1,8 +1,12 @@
+"use client";
+
 import { ChartColumnStacked } from "lucide-react";
 import Link from "next/link";
-import Button from "@/shared/ui/Button";
+import { Button } from "@/shared/ui/Button";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const path = useRouter();
   return (
     <>
       <header
@@ -21,6 +25,7 @@ const Header = () => {
             bgColor={"linear-gradient(90deg,#83FF8F,#CC7FF0)"}
             textColor={"black"}
             borderColor={"black"}
+            onClick={() => path.push("/login")}
           >
             ВОЙТИ
           </Button>

@@ -1,15 +1,24 @@
-import Button from "@/shared/ui/Button";
+"use client";
+
+import { Button } from "@/shared/ui/Button";
 import Image from "next/image";
-import { GREETING_TEXT } from "@/features/landing/lib/content";
+import { useRouter } from "next/navigation";
 
 function Greeting() {
+  const path = useRouter();
   return (
     <>
       <section className={"flex flex-col w-fit h-fit gap-[2vw]"}>
         <strong className={"font-bold text-6xl text-white"}>
-          {GREETING_TEXT}
+          ЧЕТКИЙ ОБЗОР ЛОГОВ. <br />
+          БЫСТРЫЙ ПОИСК И ОТЛАДКА.
         </strong>
-        <Button bgColor={"white"} borderColor={"#8E7FF0"} textColor={"#8E7FF0"}>
+        <Button
+          bgColor={"white"}
+          borderColor={"#8E7FF0"}
+          textColor={"#8E7FF0"}
+          onClick={() => path.push("/login")}
+        >
           <div className={"flex flex-row gap-5"}>
             <p>Начать</p>
             <Image

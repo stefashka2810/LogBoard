@@ -1,5 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Manrope } from "next/font/google";
+
+const manrope = Manrope({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-sans",
+  weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: "LogBoard",
@@ -11,12 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body style={{
-          backgroundImage: ''
-      }}>
-        {children}
-      </body>
+    <html lang="ru">
+      <body className={`${manrope.variable} font-sans`}>{children}</body>
     </html>
   );
 }
