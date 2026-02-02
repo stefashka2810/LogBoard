@@ -11,7 +11,7 @@ export const Input = React.forwardRef<HTMLDivElement, InputProps>(
       <div
         ref={ref}
         className={cn(
-          "flex h-9 w-full items-center rounded-md border border-input bg-transparent " +
+          "flex h-9 w-full items-center rounded-md border border-white/30  bg-transparent " +
             "px-3 py-1 text-base shadow-xs transition-[color,box-shadow] " +
             "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium " +
             "placeholder:text-muted-foreground focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px] " +

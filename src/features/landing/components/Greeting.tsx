@@ -9,10 +9,11 @@ function Greeting() {
   return (
     <>
       <section className={"flex flex-col w-fit h-fit gap-[2vw]"}>
-        <strong className={"font-bold text-6xl text-white"}>
+        <strong className={"font-bold text-white text-h1"}>
           ЧЕТКИЙ ОБЗОР ЛОГОВ. <br />
           БЫСТРЫЙ ПОИСК И ОТЛАДКА.
         </strong>
+
         <Button
           bgColor={"white"}
           borderColor={"#8E7FF0"}

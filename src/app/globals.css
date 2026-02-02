@@ -3,8 +3,28 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --font-size-h0: clamp(3rem, 7vw, 4.5rem);
+  --font-size-h1: clamp(2rem, 5vw, 3.5rem);
+  --font-size-h2: clamp(1.5rem, 3vw, 2rem);
+  --font-size-h3: clamp(1rem, 2vw, 1.5rem);
+  --font-size-body: clamp(0.8rem, 1.2vw, 0.9rem);
+}
+
+@layer utilities {
+  .text-h0 { font-size: var(--font-size-h0); }
+  .text-h1 { font-size: var(--font-size-h1); }
+  .text-h2 { font-size: var(--font-size-h2); }
+  .text-h3 { font-size: var(--font-size-h3); }
+  .text-body { font-size: var(--font-size-body); }
+}
+
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 @theme inline {

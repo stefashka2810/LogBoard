@@ -132,7 +132,7 @@ export function RegisterCard() {
                   <button
                     type="button"
                     className="outline-none bg-transparent w-fit h-fit hover:cursor-pointer p-1 ml-1
-                    text-gray-500 hover:text-gray-700
+                    text-white/30 hover:text-white/50
                     transition-colors"
                     onClick={() =>
                       setIsOpened({
@@ -182,7 +182,7 @@ export function RegisterCard() {
                   <button
                     type="button"
                     className="outline-none bg-transparent w-fit h-fit hover:cursor-pointer p-1 ml-1
-                    text-gray-500 hover:text-gray-700
+                    text-white/30 hover:text-white/50
                     transition-colors"
                     onClick={() =>
                       setIsOpened({
@@ -216,9 +216,13 @@ export function RegisterCard() {
             !!error.username ||
             !!error.email ||
             !!error.password ||
-            !!error.password2
+            !!error.password2 ||
+            !username ||
+            !email ||
+            !password ||
+            !password2
           }
-          className={`w-full py-1 md:text-sm rounded-md h-9 hover:scale-100`}
+          className={`w-full py-1 text-white md:text-sm rounded-md h-9 hover:scale-100 border-none bg-[linear-gradient(90deg,#E948C5_0%,#CD407B_53%,#75042D_100%)]`}
         >
           Зарегистрироваться
         </Button>

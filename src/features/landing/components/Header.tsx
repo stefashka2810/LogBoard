@@ -10,17 +10,19 @@ const Header = () => {
   return (
     <>
       <header
-        className={"flex flex-row items-center justify-between w-full h-fit "}
+        className={
+          "flex flex-col sm:flex-row sm:items-center justify-between w-full h-fit text-body"
+        }
       >
-        <div className="flex items-end gap-1">
+        <div className="flex  items-center gap-1">
           <ChartColumnStacked stroke="white" className="self-end" />
           <span className="font-bold text-white leading-none">LOGBOARD</span>
         </div>
 
-        <nav className={"flex items-center gap-5 text-white"}>
-          <Link href={"#"}>ФИЧИ</Link>
-          <Link href={"#"}>О НАС</Link>
-          <Link href={"#"}>ВОПРОСЫ</Link>
+        <nav className={"flex items-center justify-end gap-5 text-white"}>
+          <Link href={"#features"}>ВОЗМОЖНОСТИ</Link>
+          <Link href={"#about"}>О НАС</Link>
+          <Link href={"#faq"}>ВОПРОСЫ</Link>
           <Button
             bgColor={"linear-gradient(90deg,#83FF8F,#CC7FF0)"}
             textColor={"black"}

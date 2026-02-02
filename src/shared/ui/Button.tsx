@@ -18,24 +18,22 @@ export const Button = ({
   ...props
 }: ButtonProps) => {
   return (
-    <>
-      <button
-        style={{
-          background: bgColor || "white",
-          borderColor: borderColor || "black",
-          color: textColor || "black",
-        }}
-        onClick={onClick}
-        className={cn(
-          "outline-0 w-fit h-fit rounded-3xl py-2 px-4 border " +
-            "hover:cursor-pointer hover:scale-105 transition-all duration-300 ease-in-out will-change-transform " +
-            "disabled:cursor-not-allowed",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </button>
-    </>
+    <button
+      style={{
+        ...(bgColor ? { background: bgColor } : {}),
+        ...(borderColor ? { borderColor } : {}),
+        ...(textColor ? { color: textColor } : {}),
+      }}
+      onClick={onClick}
+      className={cn(
+        "text-body outline-0 w-fit h-fit rounded-3xl py-2 px-4 border " +
+          "hover:cursor-pointer hover:scale-105 transition-all duration-300 ease-in-out will-change-transform " +
+          "disabled:cursor-not-allowed",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </button>
   );
 };
