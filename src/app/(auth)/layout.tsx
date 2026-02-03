@@ -23,8 +23,8 @@ export default function AuthLayout({
         </div>
       </div>
 
-      <div className={"absolute top-1/5 right-0 sm:top-1/11 sm:right-1/4"}>
-        <div className="relative w-[180px] h-[180px] md:w-[250px] md:h-[250px] lg:w-[310px] lg:h-[310px]">
+      <div className={"absolute top-15 right-[clamp(0px,22vw,300px)]"}>
+        <div className="relative w-[200px] h-[200px] md:w-[250px] md:h-[250px] lg:w-[310px] lg:h-[310px]">
           <Image
             src={"/images/Ellipse 2.svg"}
             alt={"laptop"}
@@ -35,8 +35,8 @@ export default function AuthLayout({
         </div>
       </div>
 
-      <div className={"absolute bottom-1/6 sm:bottom-1/11 left-0 sm:left-1/4"}>
-        <div className="relative w-[160px] h-[160px] md:w-[190px] md:h-[190px] lg:w-[250px] lg:h-[250px]">
+      <div className={"absolute bottom-1/6 md:bottom-1/11 left-0 md:left-1/4"}>
+        <div className="relative w-[190px] h-[190px] md:w-[220px] md:h-[220px] lg:w-[250px] lg:h-[250px]">
           <Image
             src={"/images/Ellipse 1.svg"}
             alt={"laptop"}

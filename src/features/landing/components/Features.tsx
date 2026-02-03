@@ -11,8 +11,6 @@ const Features = () => {
 
   const iconLight =
     "w-[clamp(32px,4vw,56px)] h-[clamp(32px,4vw,56px)] text-black/50";
-  const iconDark =
-    "w-[clamp(32px,4vw,56px)] h-[clamp(32px,4vw,56px)] text-white/15";
 
   return (
     <>
@@ -54,7 +52,6 @@ const Features = () => {
           }
         >
           <div className={"flex flex-col w-fit lg:pt-15 gap-2 sm:gap-5"}>
-            {/* 1 */}
             <div className={cardLight}>
               <div className={cardInner}>
                 <span className={"font-bold text-h3"}>Гибкий поиск</span>
@@ -66,7 +63,6 @@ const Features = () => {
               </div>
             </div>
 
-            {/* 2 */}
             <div className={cardLight}>
               <div className={cardInner}>
                 <span className={"font-bold text-h3"}>Личный кабинет</span>
@@ -80,7 +76,6 @@ const Features = () => {
           </div>
 
           <div className={"flex flex-col w-fit gap-2 sm:gap-5"}>
-            {/* 3 */}
             <div className={cardDark}>
               <div className={cardInner}>
                 <span className={"font-bold text-h3"}>Аналитика</span>
@@ -100,7 +95,6 @@ const Features = () => {
               </div>
             </div>
 
-            {/* 4 */}
             <div className={cardLight}>
               <div className={cardInner}>
                 <span className={"font-bold text-h3"}>Сортировка</span>

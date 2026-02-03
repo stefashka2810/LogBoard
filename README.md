@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LogBoard (Клиентская часть)
 
-## Getting Started
+Клиентская часть системы логов **LogBoard** — веб-приложение на **Next.js + React + TypeScript + Redux Toolkit**, предоставляющее интерфейс для:
+- авторизации и регистрации пользователей;
+- управления подключёнными проектами;
+- просмотра, поиска, фильтрации, сортировки и пагинации логов;
+- визуализации аналитики логов по выбранному периоду с автоматическим масштабированием;
+- управления API-ключами проекта через модальные окна;
+- маркетингового лендинга (SEO-страница).
 
-First, run the development server:
+> Обмен данными с сервером выполняется по HTTP/HTTPS через REST API (JSON).
 
+
+## Технологии
+
+- **Next.js (App Router)** — маршрутизация, SSR/SSG для лендинга
+- **React + TypeScript** — UI и типизация
+- **Tailwind CSS** — стилизация и адаптивный дизайн
+- **Redux Toolkit** — глобальное состояние (user, выбранный проект, параметры отображения)
+- **RTK Query**  — запросы к API, кэширование, статусы загрузки
+- **Docker** — контейнеризация для развёртывания/демонстрации
+
+
+## Страницы и сценарии
+
+### Маркетинговый лендинг (`/`)
+- описание продукта и его возможностей
+- кнопки перехода: “Войти”, “Начать”
+- **HTTP-запросы не требуются**
+
+### Вход (`/login`)
+- поля `username`, `password` + клиентская валидация
+- кнопка “Войти” → `POST` (логин)
+- при открытии страницы выполняется `GET` для проверки активной сессии/токена (автологин)
+- при ошибке — вывод сообщения пользователю
+
+### Регистрация (`/register`)
+- поля `username`, `password`, `passwordConfirm` + клиентская валидация
+- кнопка “Зарегистрироваться” → `POST` (регистрация)
+- при успехе — редирект в систему
+
+### Главная страница системы (`/app`)
+Единый дашборд, включающий:
+- **Sidebar**: информация о пользователе, настройки учётной записи, список проектов и управление ими, выбор активного проекта и информация о нём
+- **Logs**: таблица логов выбранного проекта + поиск/фильтры/сортировка/пагинация
+- **Analytics**: выбор периода и графики количества логов с автоматическим масштабированием (день/неделя/месяц и т.д.)
+- **Modals**: управление API-ключами проекта
+
+Запросы на странице:
+- при загрузке: `GET` данные пользователя и список проектов
+- при выборе проекта: `GET` логи выбранного проекта
+- при изменении фильтров/поиска/сортировки: `GET` с параметрами
+- аналитика: `GET` агрегированные данные
+- API-ключи: `POST` создать, `DELETE/PUT` удалить/отключить
+- проекты/пользователь: `POST/PUT/PATCH/DELETE` для CRUD
+
+
+## Быстрый старт
+
+### Требования
+- Node.js 18+ (или 20+)
+- npm / pnpm / yarn (любой)
+
+### Установка
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+npm install
