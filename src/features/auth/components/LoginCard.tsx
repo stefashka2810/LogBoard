@@ -12,7 +12,7 @@ import {
 } from "@/shared/ui/Card";
 import { Input } from "@/shared/ui/Input";
 import { Label } from "@/shared/ui/Label";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   validatePassword,
   validateUsername,
@@ -22,8 +22,17 @@ import { Eye, EyeClosed } from "lucide-react";
 export function LoginCard() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState({ username: "", password: "" });
   const [isOpened, setIsOpened] = useState(false);
+  const [touchedUsername, setTouchedUsername] = useState(false);
+  const [touchedPassword, setTouchedPassword] = useState(false);
+
+  const error = useMemo(
+    () => ({
+      username: validateUsername(username),
+      password: validatePassword(password),
+    }),
+    [username, password],
+  );
 
   return (
     <Card className="w-full">
@@ -53,16 +62,14 @@ export function LoginCard() {
                   type="text"
                   autoComplete="nickname"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  onBlur={() =>
-                    setError({
-                      username: validateUsername(username),
-                      password: error.password,
-                    })
-                  }
+                  onBlur={() => setTouchedUsername(true)}
+                  onChange={(e) => {
+                    if (!touchedUsername) setTouchedUsername(true);
+                    setUsername(e.target.value);
+                  }}
                   required
                 />
-                {error.username && (
+                {touchedUsername && error.username && (
                   <span className={"text-xs"}>{error.username}</span>
                 )}
               </div>
@@ -85,13 +92,11 @@ export function LoginCard() {
                   type={isOpened ? "text" : "password"}
                   autoComplete="current-password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  onBlur={() =>
-                    setError({
-                      username: error.username,
-                      password: validatePassword(password),
-                    })
-                  }
+                  onChange={(e) => {
+                    if (!touchedPassword) setTouchedPassword(true);
+                    setPassword(e.target.value);
+                  }}
+                  onBlur={() => setTouchedPassword(true)}
                   required
                   className="pr-1"
                 >
@@ -107,7 +112,7 @@ export function LoginCard() {
                   </button>
                 </Input>
 
-                {error.password && (
+                {touchedPassword && error.password && (
                   <span className={"text-xs"}>{error.password}</span>
                 )}
               </div>

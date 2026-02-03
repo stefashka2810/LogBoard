@@ -28,7 +28,7 @@ export const Button = ({
       className={cn(
         "text-body outline-0 w-fit h-fit rounded-3xl py-2 px-4 border " +
           "hover:cursor-pointer hover:scale-105 transition-all duration-300 ease-in-out will-change-transform " +
-          "disabled:cursor-not-allowed",
+          "disabled:opacity-60 disabled:cursor-not-allowed",
         className,
       )}
       {...props}

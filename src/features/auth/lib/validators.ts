@@ -42,18 +42,6 @@ export const validatePassword = (password: string): string => {
   return "";
 };
 
-export const validateEmail = (email: string): string => {
-  if (!email.trim()) {
-    return "введите email";
-  }
-
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return "введите корректный email, например: example@mail.ru";
-  }
-
-  return "";
-};
-
 export const confirmPassword = (password1: string, password2: string) => {
   if (!password2.trim()) {
     return "введите ваш пароль еще раз";
