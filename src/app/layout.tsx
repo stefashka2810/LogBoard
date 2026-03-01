@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Manrope } from "next/font/google";
+import AppProvider from "@/app/provider/Provider";
 
 const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
@@ -19,7 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className={`${manrope.variable} font-sans`}>{children}</body>
+      <body className={`${manrope.variable} font-sans`}>
+        <AppProvider>{children}</AppProvider>
+      </body>
     </html>
   );
 }

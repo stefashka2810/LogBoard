@@ -1,5 +1,5 @@
-import FAQSection from "@/features/landing/components/FAQ";
-import Text from "@/features/landing/components/Text";
+import FAQSection from "@/widgets/landing/ui/FAQ";
+import Text from "@/widgets/landing/ui/Text";
 
 const FullFAQSection = () => {
   return (

@@ -19,6 +19,9 @@ import {
   validateUsername,
 } from "@/features/auth/lib/validators";
 import { Eye, EyeClosed } from "lucide-react";
+import { useRegisterUserMutation } from "@/features/auth/api/authApi";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function RegisterCard() {
   const [username, setUsername] = useState("");
@@ -31,8 +34,10 @@ export function RegisterCard() {
   const [touchedUsername, setTouchedUsername] = useState(false);
   const [touchedPassword, setTouchedPassword] = useState(false);
   const [touchedPassword2, setTouchedPassword2] = useState(false);
+  const [register, { isError, error }] = useRegisterUserMutation();
+  const router = useRouter();
 
-  const error = useMemo(
+  const validateError = useMemo(
     () => ({
       username: validateUsername(username),
       password: validatePassword(password),
@@ -40,6 +45,15 @@ export function RegisterCard() {
     }),
     [username, password, password2],
   );
+
+  const handleClickRegister = async () => {
+    try {
+      await register({ username, password }).unwrap();
+      router.push("/login");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Card className="w-full">
@@ -51,12 +65,13 @@ export function RegisterCard() {
         <CardAction>
           <span className={"text-sm"}>
             Есть аккаунт?{" "}
-            <a href="/login" className="underline-offset-4 hover:underline">
+            <Link href="/login" className="underline-offset-4 hover:underline">
               Войдите
-            </a>
+            </Link>
           </span>
         </CardAction>
       </CardHeader>
+
       <CardContent>
         <form autoComplete={"off"}>
           <div className="flex flex-col gap-6">
@@ -76,8 +91,8 @@ export function RegisterCard() {
                   onBlur={() => setTouchedUsername(true)}
                   required
                 />
-                {touchedUsername && error.username && (
-                  <span className={"text-xs"}>{error.username}</span>
+                {touchedUsername && validateError.username && (
+                  <span className={"text-xs"}>{validateError.username}</span>
                 )}
               </div>
             </div>
@@ -122,8 +137,8 @@ export function RegisterCard() {
                   </button>
                 </Input>
 
-                {touchedPassword && error.password && (
-                  <span className={"text-xs"}>{error.password}</span>
+                {touchedPassword && validateError.password && (
+                  <span className={"text-xs"}>{validateError.password}</span>
                 )}
               </div>
             </div>
@@ -168,8 +183,8 @@ export function RegisterCard() {
                   </button>
                 </Input>
 
-                {touchedPassword2 && error.password2 && (
-                  <span className={"text-xs"}>{error.password2}</span>
+                {touchedPassword2 && validateError.password2 && (
+                  <span className={"text-xs"}>{validateError.password2}</span>
                 )}
               </div>
             </div>
@@ -177,15 +192,25 @@ export function RegisterCard() {
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-2">
+        {isError && (
+          <span className={"text-xs"}>
+            {"data" in (error ?? {})
+              ? String((error as { data: unknown }).data)
+              : "message" in (error ?? {})
+                ? (error as { message: string }).message
+                : "Произошла ошибка"}
+          </span>
+        )}
         <Button
           disabled={
-            !!error.username ||
-            !!error.password ||
-            !!error.password2 ||
+            !!validateError.username ||
+            !!validateError.password ||
+            !!validateError.password2 ||
             !username ||
             !password ||
             !password2
           }
+          onClick={handleClickRegister}
           className={`w-full py-1 text-white md:text-sm rounded-md h-9 hover:scale-100 border-none bg-[linear-gradient(90deg,#E948C5_0%,#CD407B_53%,#75042D_100%)]`}
         >
           Зарегистрироваться

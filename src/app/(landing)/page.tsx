@@ -1,9 +1,9 @@
-import Greeting from "@/features/landing/components/Greeting";
-import Header from "@/features/landing/components/Header";
-import { WebGLShader } from "@/features/landing/components/Background";
-import Features from "@/features/landing/components/Features";
-import AboutUsSection from "@/features/landing/components/AboutUsSection";
-import FullFAQSection from "@/features/landing/components/FullFAQSection";
+import Greeting from "@/widgets/landing/ui/Greeting";
+import Header from "@/widgets/landing/ui/Header";
+import { WebGLShader } from "@/widgets/landing/ui/Background";
+import Features from "@/widgets/landing/ui/Features";
+import AboutUsSection from "@/widgets/landing/ui/AboutUsSection";
+import FullFAQSection from "@/widgets/landing/ui/FullFAQSection";
 
 export default function LandingPage() {
   return (

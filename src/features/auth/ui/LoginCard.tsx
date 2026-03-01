@@ -18,6 +18,11 @@ import {
   validateUsername,
 } from "@/features/auth/lib/validators";
 import { Eye, EyeClosed } from "lucide-react";
+import { useLoginUserMutation } from "@/features/auth/api/authApi";
+import { setAuth } from "@/features/auth/model/authSlice";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function LoginCard() {
   const [username, setUsername] = useState("");
@@ -25,14 +30,37 @@ export function LoginCard() {
   const [isOpened, setIsOpened] = useState(false);
   const [touchedUsername, setTouchedUsername] = useState(false);
   const [touchedPassword, setTouchedPassword] = useState(false);
+  const [login, { isError, error }] = useLoginUserMutation();
+  const dispatch = useDispatch();
+  const router = useRouter();
 
-  const error = useMemo(
+  const validateError = useMemo(
     () => ({
       username: validateUsername(username),
       password: validatePassword(password),
     }),
     [username, password],
   );
+
+  const handleClickLogin = async () => {
+    try {
+      await login({ username, password })
+        .unwrap()
+        .then((data) => {
+          dispatch(
+            setAuth({
+              user: { username, password },
+              accessToken: data.access_token,
+              refreshToken: data.refresh_token,
+            }),
+          );
+        });
+
+      router.push("/dashboard");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Card className="w-full">
@@ -42,12 +70,12 @@ export function LoginCard() {
           Для входа введите ваш username и пароль
         </CardDescription>
         <CardAction>
-          <a
+          <Link
             href="/register"
             className="text-sm underline-offset-4 hover:underline"
           >
             Зарегистрироваться
-          </a>
+          </Link>
         </CardAction>
       </CardHeader>
       <CardContent>
@@ -69,8 +97,8 @@ export function LoginCard() {
                   }}
                   required
                 />
-                {touchedUsername && error.username && (
-                  <span className={"text-xs"}>{error.username}</span>
+                {touchedUsername && validateError.username && (
+                  <span className={"text-xs"}>{validateError.username}</span>
                 )}
               </div>
             </div>
@@ -112,8 +140,8 @@ export function LoginCard() {
                   </button>
                 </Input>
 
-                {touchedPassword && error.password && (
-                  <span className={"text-xs"}>{error.password}</span>
+                {touchedPassword && validateError.password && (
+                  <span className={"text-xs"}>{validateError.password}</span>
                 )}
               </div>
             </div>
@@ -121,12 +149,24 @@ export function LoginCard() {
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-2">
+        {isError && (
+          <span className={"text-xs"}>
+            {"data" in (error ?? {})
+              ? String((error as { data: unknown }).data)
+              : "message" in (error ?? {})
+                ? (error as { message: string }).message
+                : "Произошла ошибка"}
+          </span>
+        )}
         <Button
           disabled={
-            !!error.username || !!error.password || !username || !password
+            !!validateError.username ||
+            !!validateError.password ||
+            !username ||
+            !password
           }
           className={`w-full py-1 text-white md:text-sm rounded-md h-9 hover:scale-100 border-none bg-[linear-gradient(90deg,#E948C5_0%,#CD407B_53%,#75042D_100%)]`}
-          onClick={() => console.log(!!error.username || !!error.password)}
+          onClick={handleClickLogin}
         >
           Войти
         </Button>

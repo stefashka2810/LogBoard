@@ -4,8 +4,8 @@ interface ButtonProps extends React.ComponentProps<"button"> {
   bgColor?: string;
   borderColor?: string;
   textColor?: string;
-  onClick?: () => void;
-  children: React.ReactNode;
+  onClick?: (arg: unknown) => void;
+  children?: React.ReactNode;
 }
 
 export const Button = ({
