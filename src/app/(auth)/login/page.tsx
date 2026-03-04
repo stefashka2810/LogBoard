@@ -1,4 +1,4 @@
-import { LoginCard } from "@/features/auth/ui/LoginCard";
+import { LoginCard } from "@/features/userAuth/ui/LoginCard";
 
 export default function LoginPage() {
   return (

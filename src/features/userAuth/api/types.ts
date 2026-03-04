@@ -6,7 +6,12 @@ export interface LoginResponse {
 }
 
 export interface FetchErrorResponse {
-  status: number;
+  status:
+    | number
+    | "FETCH_ERROR"
+    | "PARSING_ERROR"
+    | "TIMEOUT_ERROR"
+    | "CUSTOM_ERROR";
   data: ErrorResponse;
   statusText: string;
 }

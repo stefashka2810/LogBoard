@@ -3,16 +3,18 @@ import {
   DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
 import { useDispatch } from "react-redux";
-import { setLogout } from "@/features/auth/model/authSlice";
+import { setLogout } from "@/features/userAuth/model/authSlice";
 import { useRouter } from "next/navigation";
 
 const LogoutMenu = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+
   const handleLogout = () => {
     dispatch(setLogout());
     router.replace("/login");
   };
+
   return (
     <>
       <DropdownMenuContent

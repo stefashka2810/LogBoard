@@ -17,9 +17,9 @@ import {
   confirmPassword,
   validatePassword,
   validateUsername,
-} from "@/features/auth/lib/validators";
+} from "@/features/userAuth/model/validators";
 import { Eye, EyeClosed } from "lucide-react";
-import { useRegisterUserMutation } from "@/features/auth/api/authApi";
+import { useRegisterUserMutation } from "@/features/userAuth/api/authApi";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -34,7 +34,7 @@ export function RegisterCard() {
   const [touchedUsername, setTouchedUsername] = useState(false);
   const [touchedPassword, setTouchedPassword] = useState(false);
   const [touchedPassword2, setTouchedPassword2] = useState(false);
-  const [register, { isError, error }] = useRegisterUserMutation();
+  const [register, { isError, error, isLoading }] = useRegisterUserMutation();
   const router = useRouter();
 
   const validateError = useMemo(
@@ -49,6 +49,7 @@ export function RegisterCard() {
   const handleClickRegister = async () => {
     try {
       await register({ username, password }).unwrap();
+
       router.push("/login");
     } catch (err) {
       console.log(err);
@@ -193,12 +194,12 @@ export function RegisterCard() {
       </CardContent>
       <CardFooter className="flex-col gap-2">
         {isError && (
-          <span className={"text-xs"}>
-            {"data" in (error ?? {})
-              ? String((error as { data: unknown }).data)
-              : "message" in (error ?? {})
+          <span className={"text-xs text-white"}>
+            {typeof error === "string"
+              ? error
+              : error && typeof error === "object" && "message" in error
                 ? (error as { message: string }).message
-                : "Произошла ошибка"}
+                : "Произошла ошибка. Попробуйте позже"}
           </span>
         )}
         <Button
@@ -213,7 +214,8 @@ export function RegisterCard() {
           onClick={handleClickRegister}
           className={`w-full py-1 text-white md:text-sm rounded-md h-9 hover:scale-100 border-none bg-[linear-gradient(90deg,#E948C5_0%,#CD407B_53%,#75042D_100%)]`}
         >
-          Зарегистрироваться
+          {isLoading && <span>загрузка...</span>}
+          {!isLoading && <span>Зарегистрироваться</span>}
         </Button>
       </CardFooter>
     </Card>

@@ -16,10 +16,10 @@ import { useMemo, useState } from "react";
 import {
   validatePassword,
   validateUsername,
-} from "@/features/auth/lib/validators";
+} from "@/features/userAuth/model/validators";
 import { Eye, EyeClosed } from "lucide-react";
-import { useLoginUserMutation } from "@/features/auth/api/authApi";
-import { setAuth } from "@/features/auth/model/authSlice";
+import { useLoginUserMutation } from "@/features/userAuth/api/authApi";
+import { setAuth } from "@/features/userAuth/model/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -150,12 +150,12 @@ export function LoginCard() {
       </CardContent>
       <CardFooter className="flex-col gap-2">
         {isError && (
-          <span className={"text-xs"}>
-            {"data" in (error ?? {})
-              ? String((error as { data: unknown }).data)
-              : "message" in (error ?? {})
+          <span className={"text-xs text-white"}>
+            {typeof error === "string"
+              ? error
+              : error && typeof error === "object" && "message" in error
                 ? (error as { message: string }).message
-                : "Произошла ошибка"}
+                : "Произошла ошибка. Попробуйте позже"}
           </span>
         )}
         <Button

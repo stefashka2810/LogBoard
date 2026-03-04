@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthSliceState } from "@/features/auth/model/types";
+import { AuthSliceState } from "@/features/userAuth/model/types";
 
 const initialAuthState: AuthSliceState = {
   isAuth: false,
@@ -18,6 +18,11 @@ export const authSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
     },
+
+    setRefreshToken: (state, action) => {
+      state.accessToken = action.payload.accessToken;
+    },
+
     setLogout: (state) => {
       state.isAuth = false;
       state.user = null;
@@ -27,4 +32,4 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setAuth, setLogout } = authSlice.actions;
+export const { setAuth, setLogout, setRefreshToken } = authSlice.actions;

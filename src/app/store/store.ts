@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { rootReducer } from "@/app/store/rootReducer";
 import { persistReducer, persistStore } from "redux-persist";
-import { authApi } from "@/features/auth/api/authApi";
+import { authApi } from "@/features/userAuth/api/authApi";
 import { getStorage } from "@/app/store/storage";
 
 export const persistConfig = {

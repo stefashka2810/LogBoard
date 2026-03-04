@@ -7,13 +7,13 @@ import { SidebarProvider, SidebarTrigger } from "@/shared/ui/sidebar";
 import { AppSidebar } from "@/features/dashboard/ui/AppSidebar";
 
 export default function Layout({ children }: { children: ReactNode }) {
-  // const isAuth = useSelector((state: RootState) => state.auth.isAuth);
+  // const isAuth = useSelector((state: RootState) => state.userAuth.isAuth);
   const isAuth = true;
   const router = useRouter();
 
   useEffect(() => {
     if (!isAuth) {
-      router.push("/login");
+      router.replace("/login");
     }
   }, [isAuth, router]);
 

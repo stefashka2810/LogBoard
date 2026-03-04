@@ -1,40 +1,66 @@
+"use client";
+
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarHeader,
+  SidebarGroupLabel,
+  SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarSeparator,
+  SidebarHeader,
 } from "@/shared/ui/sidebar";
+
 import { ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
+
 import UserInfo from "@/entities/user/ui/UserInfo";
-import LogoutMenu from "@/features/auth/ui/LogoutMenu";
+import LogoutMenu from "@/features/userAuth/ui/LogoutMenu";
+import AddProject from "@/features/dashboard/ui/AddProject";
+import ProjectList from "@/features/projectWork/ui/ProjectList";
 
 export function AppSidebar() {
   return (
-    <Sidebar>
-      <SidebarHeader></SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup />
-        <SidebarGroup />
+    <Sidebar className="bg-[#AFA3FD] text-black">
+      <SidebarHeader className="p-3">
+        <div className="leading-tight">
+          <div className="text-sm font-semibold text-black">Проекты</div>
+          <div className="text-xs text-black/70">Твое пространство</div>
+        </div>
+        <AddProject />
+      </SidebarHeader>
+      <SidebarSeparator className="bg-black/15" />
+      <SidebarContent className="px-2 py-3">
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-black/70">
+            Участвую в проектах
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <ProjectList></ProjectList>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
+
+      <SidebarFooter className="p-2">
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton size="lg">
-                  <UserInfo></UserInfo>
-                  <ChevronDown className="ml-auto size-4" />
+                <SidebarMenuButton
+                  size="lg"
+                  className="text-black hover:bg-[#E4E0FF] data-[state=open]:bg-[#E4E0FF]"
+                >
+                  <UserInfo />
+                  <ChevronDown className="ml-auto size-4 text-black/70" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <LogoutMenu></LogoutMenu>
+              <LogoutMenu />
             </DropdownMenu>
           </SidebarMenuItem>
         </SidebarMenu>

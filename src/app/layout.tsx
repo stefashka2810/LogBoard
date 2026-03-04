@@ -9,18 +9,18 @@ const manrope = Manrope({
   weight: ["400", "500", "600", "700"],
 });
 
-export const metadata: Metadata = {
-  title: "LogBoard",
-};
+export const metadata: Metadata = { title: "LogBoard" };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="ru">
       <body className={`${manrope.variable} font-sans`}>
+        <div id="portal-root" />
+
         <AppProvider>{children}</AppProvider>
       </body>
     </html>

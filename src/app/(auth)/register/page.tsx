@@ -1,5 +1,5 @@
-import { LoginCard } from "@/features/auth/ui/LoginCard";
-import { RegisterCard } from "@/features/auth/ui/RegisterCard";
+import { LoginCard } from "@/features/userAuth/ui/LoginCard";
+import { RegisterCard } from "@/features/userAuth/ui/RegisterCard";
 
 export default function RegisterPage() {
   return (
