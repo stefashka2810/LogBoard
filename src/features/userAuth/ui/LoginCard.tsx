@@ -30,7 +30,7 @@ export function LoginCard() {
   const [isOpened, setIsOpened] = useState(false);
   const [touchedUsername, setTouchedUsername] = useState(false);
   const [touchedPassword, setTouchedPassword] = useState(false);
-  const [login, { isError, error }] = useLoginUserMutation();
+  const [login, { isError, error, isLoading }] = useLoginUserMutation();
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -168,7 +168,8 @@ export function LoginCard() {
           className={`w-full py-1 text-white md:text-sm rounded-md h-9 hover:scale-100 border-none bg-[linear-gradient(90deg,#E948C5_0%,#CD407B_53%,#75042D_100%)]`}
           onClick={handleClickLogin}
         >
-          Войти
+          {isLoading && <span>Загрузка...</span>}
+          {!isLoading && <span>Войти</span>}
         </Button>
       </CardFooter>
     </Card>

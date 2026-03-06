@@ -12,24 +12,33 @@ const ProjectList = () => {
   const { data, isError, isLoading } = useGetProjectsQuery();
 
   if (isLoading) {
-    return <ClipLoader color="#36d7b7" size={50} />;
+    return (
+      <div className={"flex flex-col h-full items-center justify-center my-10"}>
+        <ClipLoader color="#E4E0FF" size={50} />
+      </div>
+    );
   }
 
   if (isError) {
-    return <span className={"text-black"}>Ошибка загрузки проектов</span>;
+    return (
+      <div className={"flex flex-col h-full items-center justify-center my-10"}>
+        <span className={"text-black"}>Ошибка загрузки проектов</span>
+      </div>
+    );
   }
 
   if (!data || data.length === 0) {
-    return <span className={"text-black"}>Нет проектов</span>;
+    return (
+      <div className={"flex flex-col h-full items-center justify-center my-10"}>
+        <span className={"text-black"}>Нет проектов</span>
+      </div>
+    );
   }
 
   const newProject = data.reduce((a, b) =>
     new Date(a.created_at).getTime() > new Date(b.created_at).getTime() ? a : b,
   );
 
-  const activeProject = data.reduce((a, b) =>
-    new Date(a.updated_at).getTime() > new Date(b.updated_at).getTime() ? a : b,
-  );
   return (
     <SidebarMenu>
       {data &&
@@ -49,12 +58,6 @@ const ProjectList = () => {
                 {p === newProject && (
                   <SidebarMenuBadge className="bg-black/10 text-black">
                     new
-                  </SidebarMenuBadge>
-                )}
-
-                {p === activeProject && (
-                  <SidebarMenuBadge className="bg-black/10 text-black">
-                    last updated
                   </SidebarMenuBadge>
                 )}
               </Link>

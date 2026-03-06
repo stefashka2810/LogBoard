@@ -24,16 +24,24 @@ import UserInfo from "@/entities/user/ui/UserInfo";
 import LogoutMenu from "@/features/userAuth/ui/LogoutMenu";
 import AddProject from "@/features/dashboard/ui/AddProject";
 import ProjectList from "@/features/projectWork/ui/ProjectList";
+import { useState } from "react";
 
 export function AppSidebar() {
+  const [open, setOpen] = useState(false);
+  const handleClickCreateProject = (arg: boolean) => {
+    setOpen(arg);
+  };
   return (
-    <Sidebar className="bg-[#AFA3FD] text-black">
+    <Sidebar
+      isCreateProjectModalOpen={open}
+      className="bg-[#AFA3FD] text-black"
+    >
       <SidebarHeader className="p-3">
         <div className="leading-tight">
           <div className="text-sm font-semibold text-black">Проекты</div>
           <div className="text-xs text-black/70">Твое пространство</div>
         </div>
-        <AddProject />
+        <AddProject handleClick2={handleClickCreateProject} />
       </SidebarHeader>
       <SidebarSeparator className="bg-black/15" />
       <SidebarContent className="px-2 py-3">
@@ -54,7 +62,7 @@ export function AppSidebar() {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton
                   size="lg"
-                  className="text-black hover:bg-[#E4E0FF] data-[state=open]:bg-[#E4E0FF]"
+                  className="text-black bg-[#E4E0FF] hover:bg-[#E4E0FF]/80 hover:cursor-pointer data-[state=open]:bg-[#E4E0FF]/80"
                 >
                   <UserInfo />
                   <ChevronDown className="ml-auto size-4 text-black/70" />

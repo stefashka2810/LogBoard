@@ -17,6 +17,7 @@ import {
   validateProjectName,
 } from "@/features/projectWork/model/validators";
 import { useCreateProjectMutation } from "@/features/projectWork/api/projectApi";
+import { Project } from "@/entities/project/model/types";
 
 export function AddProjectForm({
   onLoginSuccessAction,

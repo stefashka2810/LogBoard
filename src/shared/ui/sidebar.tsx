@@ -157,11 +157,13 @@ function Sidebar({
   collapsible = "offcanvas",
   className,
   children,
+  isCreateProjectModalOpen,
   ...props
 }: React.ComponentProps<"div"> & {
   side?: "left" | "right";
   variant?: "sidebar" | "floating" | "inset";
   collapsible?: "offcanvas" | "icon" | "none";
+  isCreateProjectModalOpen?: boolean;
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
@@ -193,13 +195,16 @@ function Sidebar({
               "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
             } as React.CSSProperties
           }
+          disableOutsideDismiss={isCreateProjectModalOpen}
           side={side}
         >
           <SheetHeader className="sr-only">
             <SheetTitle>Sidebar</SheetTitle>
             <SheetDescription>Displays the mobile sidebar.</SheetDescription>
           </SheetHeader>
-          <div className="flex h-full w-full flex-col">{children}</div>
+          <div className="bg-[#AFA3FD] flex h-full w-full flex-col">
+            {children}
+          </div>
         </SheetContent>
       </Sheet>
     );
