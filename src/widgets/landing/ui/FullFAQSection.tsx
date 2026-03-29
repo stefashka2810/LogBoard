@@ -3,7 +3,7 @@ import Text from "@/widgets/landing/ui/Text";
 
 const FullFAQSection = () => {
   return (
-    <div className="h-fit">
+    <div className="h-fit max-w-full">
       <Text
         delay={500}
         baseVelocity={-3}

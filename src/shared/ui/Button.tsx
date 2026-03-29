@@ -4,7 +4,7 @@ interface ButtonProps extends React.ComponentProps<"button"> {
   bgColor?: string;
   borderColor?: string;
   textColor?: string;
-  onClick?: (arg: unknown) => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   children?: React.ReactNode;
 }
 

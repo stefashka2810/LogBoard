@@ -4,6 +4,7 @@ import { WebGLShader } from "@/widgets/landing/ui/Background";
 import Features from "@/widgets/landing/ui/Features";
 import AboutUsSection from "@/widgets/landing/ui/AboutUsSection";
 import FullFAQSection from "@/widgets/landing/ui/FullFAQSection";
+import Footer from "@/widgets/landing/ui/Footer";
 
 export default function LandingPage() {
   return (
@@ -35,10 +36,11 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section id="faq" className="min-h-screen  flex items-center">
-        <div className={"w-full"}>
+      <section id="faq" className="max-w-full min-h-screen flex flex-col ">
+        <div className={"max-w-full flex-1 flex items-center justify-center"}>
           <FullFAQSection></FullFAQSection>
         </div>
+        <Footer></Footer>
       </section>
     </>
   );
