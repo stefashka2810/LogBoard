@@ -7,7 +7,9 @@ import { Dialog as SheetPrimitive } from "radix-ui";
 import { cn } from "@/shared/lib/utils";
 
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
-  return <SheetPrimitive.Root data-slot="sheet" {...props} />;
+  return (
+    <SheetPrimitive.Root data-slot="sheet" {...props}></SheetPrimitive.Root>
+  );
 }
 
 function SheetTrigger({
@@ -36,7 +38,7 @@ function SheetOverlay({
     <SheetPrimitive.Overlay
       data-slot="sheet-overlay"
       className={cn(
-        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
+        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-40 bg-black/50",
         className,
       )}
       {...props}
@@ -50,28 +52,34 @@ function SheetContent({
   side = "right",
   showCloseButton = true,
   disableOutsideDismiss = false,
+  showOverlay = true,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
   side?: "top" | "right" | "bottom" | "left";
   showCloseButton?: boolean;
   disableOutsideDismiss?: boolean;
+  showOverlay?: boolean;
 }) {
+  const sideClasses = {
+    top: "inset-x-0 top-0 data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top",
+    bottom:
+      "inset-x-0 bottom-0 data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
+    left: "inset-y-0 left-0 w-3/4 data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left",
+    right:
+      "inset-y-0 right-0 w-3/4 data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right",
+  };
+
   return (
     <SheetPortal>
-      <SheetOverlay />
+      {showOverlay && <SheetOverlay />}
       <SheetPrimitive.Content
         data-slot="sheet-content"
         onPointerDownOutside={(e) => {
           if (disableOutsideDismiss) e.preventDefault();
         }}
-        onInteractOutside={(e) => {
-          if (disableOutsideDismiss) e.preventDefault();
-        }}
-        onEscapeKeyDown={(e) => {
-          if (disableOutsideDismiss) e.preventDefault();
-        }}
         className={cn(
-          "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-4 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
+          "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500 z-50",
+          sideClasses[side],
           className,
         )}
         {...props}

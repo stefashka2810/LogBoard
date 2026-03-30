@@ -20,7 +20,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return isAuth ? (
     <SidebarProvider>
       <AppSidebar />
-      <main>
+      <main className="flex-1">
         <SidebarTrigger />
         {children}
       </main>

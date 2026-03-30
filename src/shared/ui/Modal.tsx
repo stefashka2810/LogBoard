@@ -19,7 +19,6 @@ function Modal({
 
   return createPortal(
     <div
-      onClick={onClose}
       style={{
         position: "fixed",
         inset: 0,
@@ -28,15 +27,22 @@ function Modal({
         placeItems: "center",
         zIndex: 9999,
       }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
     >
       <div
-        onClick={(e) => e.stopPropagation()}
         style={{
           position: "relative",
           background: "#E4E0FF",
           borderRadius: 12,
-          minWidth: 400,
+          width: "90vw",
+          maxWidth: 400,
+          pointerEvents: "auto",
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         <div
           style={{
@@ -44,6 +50,7 @@ function Modal({
             left: "18px",
             top: "-22px",
             zIndex: 10000,
+            pointerEvents: "none",
           }}
         >
           <Image
@@ -61,11 +68,12 @@ function Modal({
             right: "7px",
             top: "7px",
             zIndex: 10000,
+            cursor: "pointer",
           }}
         >
           <CircleX
             stroke={"#F07FE5"}
-            className={"hover:cursor-pointer opacity-60 hover:opacity-100"}
+            className={"opacity-60 hover:opacity-100"}
           />
         </div>
         {children}

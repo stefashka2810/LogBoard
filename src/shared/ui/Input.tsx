@@ -5,11 +5,13 @@ interface InputProps extends React.ComponentProps<"input"> {
   children?: React.ReactNode;
 }
 
-export const Input = React.forwardRef<HTMLDivElement, InputProps>(
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, children, ...props }, ref) => {
+    const localRef = React.useRef<HTMLInputElement>(null);
+    const finalRef = (ref as any) || localRef;
+
     return (
       <div
-        ref={ref}
         className={cn(
           "flex h-9 w-full items-center rounded-md border border-white/70  bg-transparent " +
             "px-3 py-1 text-base shadow-xs transition-[color,box-shadow] " +
@@ -21,6 +23,7 @@ export const Input = React.forwardRef<HTMLDivElement, InputProps>(
         )}
       >
         <input
+          ref={finalRef}
           type={type}
           className="w-full min-w-0 bg-transparent outline-none disabled:opacity-50"
           {...props}

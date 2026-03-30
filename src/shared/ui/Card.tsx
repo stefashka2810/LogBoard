@@ -6,6 +6,7 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card"
+      style={{ pointerEvents: "auto" }}
       className={cn(
         "bg-white/5\n" +
           "    backdrop-blur-xl\n" +
@@ -68,6 +69,7 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-content"
+      style={{ pointerEvents: "auto" }}
       className={cn("px-6", className)}
       {...props}
     />

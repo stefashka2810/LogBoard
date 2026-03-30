@@ -15,6 +15,15 @@ import { Project } from "@/entities/project/model/types";
 import { useState } from "react";
 import Modal from "@/shared/ui/Modal";
 import { Button } from "@/shared/ui/Button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/shared/ui/sheet";
+import AddProjectForm from "@/features/projectWork/ui/AddProjectForm";
+import { useIsMobile } from "@/widgets/landing/lib/use-mobile";
+import ConfirmProjectDelete from "@/features/projectWork/ui/ConfirmProjectDelete";
 
 const ProjectList = () => {
   // const { data, isError, isLoading } = useGetProjectsQuery();
@@ -46,6 +55,7 @@ const ProjectList = () => {
   const [deleteProject, { isLoading, isError, error, isSuccess, reset }] =
     useDeleteProjectMutation();
   const [open, setOpen] = useState(false);
+  const isMobile = useIsMobile();
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
     null,
   );
@@ -130,50 +140,35 @@ const ProjectList = () => {
           </SidebarMenuItem>
         ))}
       </SidebarMenu>
+      {isMobile ? (
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetContent side="bottom" className="h-fit">
+            <SheetHeader>
+              <SheetTitle>Удаление проекта</SheetTitle>
+            </SheetHeader>
 
-      <Modal open={open} onClose={handleCloseModal}>
-        <div
-          className={
-            "flex flex-col gap-2 items-center justify-center w-full h-fit p-8"
-          }
-        >
-          <span className={"font-semibold mb-3"}>
-            Вы уверены, что хотите удалить проект?
-          </span>
-
-          {isError && (
-            <span className={"text-xs text-black"}>
-              {typeof error === "string"
-                ? error
-                : error && typeof error === "object" && "message" in error
-                  ? (error as { message: string }).message
-                  : "Произошла ошибка. Попробуйте позже"}
-            </span>
-          )}
-
-          {isSuccess && (
-            <span className={"text-xs text-black"}>Проект успешно удален!</span>
-          )}
-
-          <div
-            className={"flex flex-row w-full gap-2 justify-center items-center"}
-          >
-            <Button
-              className="w-full py-1 text-white md:text-sm rounded-md h-9 hover:scale-100 border-none bg-[#F07FE5]"
-              onClick={handleClickDelete}
-            >
-              {isLoading ? "Удаление..." : "Да, удалить"}
-            </Button>
-
-            <Button
-              className="w-full py-1 md:text-sm rounded-md h-9 border-none hover:scale-100 bg-white"
-              onClick={handleCloseModal}
-            >
-              Отмена
-            </Button>
-          </div>
-        </div>
-      </Modal>
+            <ConfirmProjectDelete
+              isError={isError}
+              error={error}
+              isSuccess={isSuccess}
+              isLoading={isLoading}
+              onClickDelete={handleClickDelete}
+              onCloseModal={handleCloseModal}
+            ></ConfirmProjectDelete>
+          </SheetContent>
+        </Sheet>
+      ) : (
+        <Modal open={open} onClose={handleCloseModal}>
+          <ConfirmProjectDelete
+            isError={isError}
+            error={error}
+            isSuccess={isSuccess}
+            isLoading={isLoading}
+            onClickDelete={handleClickDelete}
+            onCloseModal={handleCloseModal}
+          ></ConfirmProjectDelete>
+        </Modal>
+      )}
     </>
   );
 };

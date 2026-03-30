@@ -17,13 +17,14 @@ import {
   validateProjectName,
 } from "@/features/projectWork/model/validators";
 import { useCreateProjectMutation } from "@/features/projectWork/api/projectApi";
-import { Project } from "@/entities/project/model/types";
+import { useIsMobile } from "@/widgets/landing/lib/use-mobile";
 
 export function AddProjectForm({
   onLoginSuccessAction,
 }: {
   onLoginSuccessAction: () => void;
 }) {
+  const isMobile = useIsMobile();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -62,14 +63,15 @@ export function AddProjectForm({
   return (
     <Card
       style={{
-        background: "transparent",
+        background: isMobile ? "#E4E0FF" : "transparent",
         border: "none",
+        borderRadius: isMobile ? 0 : "xl",
       }}
-      className=" w-full text-black"
+      className={`${isMobile ? "rounded-0" : ""} w-full text-black px-4 py-6 max-h-96 overflow-y-auto `}
     >
       <CardHeader>
-        <CardTitle>{`Создать проект`}</CardTitle>
-        <CardDescription>
+        {!isMobile && <CardTitle>{`Создать проект`}</CardTitle>}
+        <CardDescription className={`${isMobile ? "font-semibold" : ""}`}>
           Укажите название и короткое описание проекта
         </CardDescription>
       </CardHeader>

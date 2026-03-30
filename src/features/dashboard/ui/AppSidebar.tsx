@@ -24,24 +24,16 @@ import UserInfo from "@/entities/user/ui/UserInfo";
 import LogoutMenu from "@/features/userAuth/ui/LogoutMenu";
 import AddProject from "@/features/dashboard/ui/AddProject";
 import ProjectList from "@/features/projectWork/ui/ProjectList";
-import { useState } from "react";
 
 export function AppSidebar() {
-  const [open, setOpen] = useState(false);
-  const handleClickCreateProject = (arg: boolean) => {
-    setOpen(arg);
-  };
   return (
-    <Sidebar
-      isCreateProjectModalOpen={open}
-      className="bg-[#AFA3FD] text-black"
-    >
+    <Sidebar className="bg-[#AFA3FD] text-black">
       <SidebarHeader className="p-3">
         <div className="leading-tight">
           <div className="text-sm font-semibold text-black">Проекты</div>
           <div className="text-xs text-black/70">Твое пространство</div>
         </div>
-        <AddProject handleClick2={handleClickCreateProject} />
+        <AddProject handleClick2={() => {}} />
       </SidebarHeader>
       <SidebarSeparator className="bg-black/15" />
       <SidebarContent className="px-2 py-3">
