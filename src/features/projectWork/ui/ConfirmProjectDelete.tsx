@@ -49,14 +49,17 @@ const ConfirmProjectDelete = ({
 
       <div className={"flex flex-row w-full gap-2 justify-center items-center"}>
         <Button
-          className="w-full py-1 text-white md:text-sm rounded-md h-9 hover:scale-100 border-none bg-[#F07FE5]"
+          style={{
+            color: "white",
+          }}
+          className="w-full py-1  rounded-md h-9 hover:scale-100 border-none bg-[#F07FE5]"
           onClick={onClickDelete}
         >
           {isLoading ? "Удаление..." : "Да, удалить"}
         </Button>
 
         <Button
-          className="w-full py-1 md:text-sm rounded-md h-9 border-none hover:scale-100 bg-white"
+          className="w-full py-1 rounded-md h-9 border-none hover:scale-100 bg-white"
           onClick={onCloseModal}
         >
           Отмена

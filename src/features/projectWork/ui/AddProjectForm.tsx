@@ -142,7 +142,10 @@ export function AddProjectForm({
         )}
         <Button
           disabled={!canSubmit}
-          className="w-full py-1 text-white md:text-sm rounded-md h-9 hover:scale-100 border-none bg-[#F07FE5]"
+          style={{
+            color: "white",
+          }}
+          className="w-full py-1 rounded-md h-9 hover:scale-100 border-none bg-[#F07FE5]"
           onClick={handleClickCreate}
         >
           {isLoading ? "Загрузка..." : "Создать"}

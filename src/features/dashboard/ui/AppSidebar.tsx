@@ -25,7 +25,11 @@ import LogoutMenu from "@/features/userAuth/ui/LogoutMenu";
 import AddProject from "@/features/dashboard/ui/AddProject";
 import ProjectList from "@/features/projectWork/ui/ProjectList";
 
-export function AppSidebar() {
+export function AppSidebar({
+  onClickLogout,
+}: {
+  onClickLogout: (state: boolean) => void;
+}) {
   return (
     <Sidebar className="bg-[#AFA3FD] text-black">
       <SidebarHeader className="p-3">
@@ -54,13 +58,13 @@ export function AppSidebar() {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton
                   size="lg"
-                  className="text-black bg-[#E4E0FF] hover:bg-[#E4E0FF]/80 hover:cursor-pointer data-[state=open]:bg-[#E4E0FF]/80"
+                  className="text-black bg-[#E4E0FF] hover:bg-[#E4E0FF]/80 hover:cursor-pointer border-none outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 data-[state=open]:bg-[#E4E0FF]/80"
                 >
                   <UserInfo />
                   <ChevronDown className="ml-auto size-4 text-black/70" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <LogoutMenu />
+              <LogoutMenu onClickLogout={onClickLogout} />
             </DropdownMenu>
           </SidebarMenuItem>
         </SidebarMenu>
