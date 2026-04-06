@@ -22,8 +22,10 @@ import {
 
 import UserInfo from "@/entities/user/ui/UserInfo";
 import LogoutMenu from "@/features/userAuth/ui/LogoutMenu";
-import AddProject from "@/features/dashboard/ui/AddProject";
-import ProjectList from "@/features/projectWork/ui/ProjectList";
+import { lazy, Suspense } from "react";
+
+const AddProject = lazy(() => import("@/features/dashboard/ui/AddProject"));
+const ProjectList = lazy(() => import("@/features/projectWork/ui/ProjectList"));
 
 export function AppSidebar({
   onClickLogout,
@@ -37,7 +39,9 @@ export function AppSidebar({
           <div className="text-sm font-semibold text-black">Проекты</div>
           <div className="text-xs text-black/70">Твое пространство</div>
         </div>
-        <AddProject handleClick2={() => {}} />
+        <Suspense fallback={<div>Загрузка...</div>}>
+          <AddProject handleClick2={() => {}} />
+        </Suspense>
       </SidebarHeader>
       <SidebarSeparator className="bg-black/15" />
       <SidebarContent className="px-2 py-3">
@@ -46,7 +50,9 @@ export function AppSidebar({
             Участвую в проектах
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <ProjectList></ProjectList>
+            <Suspense fallback={<div>Загрузка проектов...</div>}>
+              <ProjectList />
+            </Suspense>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

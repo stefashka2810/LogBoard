@@ -9,10 +9,12 @@ const PersistGate = dynamic(
   { ssr: false },
 );
 
+const LoadingFallback = () => <div style={{ padding: "20px" }}>Loading...</div>;
+
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+      <PersistGate loading={<LoadingFallback />} persistor={persistor}>
         {children}
       </PersistGate>
     </Provider>

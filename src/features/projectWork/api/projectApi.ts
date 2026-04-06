@@ -13,6 +13,7 @@ export const projectApi = baseApi.injectEndpoints({
         method: "POST",
         body: productData,
       }),
+      invalidatesTags: ["Projects"]
     }),
 
     getProjects: builder.query<Project[], void>({
@@ -20,6 +21,7 @@ export const projectApi = baseApi.injectEndpoints({
         url: "/projects",
         method: "GET",
       }),
+      providesTags: ["Projects"]
     }),
 
     deleteProject: builder.mutation<void, string>({
@@ -27,9 +29,13 @@ export const projectApi = baseApi.injectEndpoints({
         url: `/projects/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Projects"]
     }),
   }),
+  overrideExisting: true,
 });
+
+projectApi.enhanceEndpoints({ addTagTypes: ["Projects"] });
 
 export const {
   useCreateProjectMutation,

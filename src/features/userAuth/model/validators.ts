@@ -35,10 +35,6 @@ export const validatePassword = (password: string): string => {
     return "пароль должен содержать хотя бы одну цифру";
   }
 
-  if (!/[._!]/.test(password)) {
-    return "пароль должен содержать хотя бы один символ ._!";
-  }
-
   return "";
 };
 

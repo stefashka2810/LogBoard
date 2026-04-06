@@ -8,8 +8,7 @@ import { AppSidebar } from "@/features/dashboard/ui/AppSidebar";
 import { ClipLoader } from "react-spinners";
 
 export default function Layout({ children }: { children: ReactNode }) {
-  // const isAuth = useSelector((state: RootState) => state.userAuth.isAuth);
-  const isAuth = true;
+  const isAuth = useSelector((state: RootState) => state.auth.isAuth);
   const router = useRouter();
   const [isLogout, setIsLogout] = useState(false);
 

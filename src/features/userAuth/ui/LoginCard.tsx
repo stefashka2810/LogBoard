@@ -44,21 +44,23 @@ export function LoginCard() {
 
   const handleClickLogin = async () => {
     try {
-      await login({ username, password })
-        .unwrap()
-        .then((data) => {
-          dispatch(
-            setAuth({
-              user: { username, password },
-              accessToken: data.access_token,
-              refreshToken: data.refresh_token,
-            }),
-          );
-        });
-
+      const response = await login({ username, password }).unwrap();
+      console.log("[LOGIN] Response received:", response);
+      
+      dispatch(
+        setAuth({
+          user: { username, password },
+          accessToken: (response as any).accessToken,
+          refreshToken: (response as any).refreshToken,
+        }),
+      );
+      
+      console.log("[LOGIN] Dispatch completed, waiting for persist...");
+      await new Promise(resolve => setTimeout(resolve, 100));
+      console.log("[LOGIN] Now navigating to dashboard");
       router.push("/dashboard");
     } catch (err) {
-      console.log(err);
+      console.log("[LOGIN] Error:", err);
     }
   };
 

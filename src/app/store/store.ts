@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { rootReducer } from "@/app/store/rootReducer";
 import { persistReducer, persistStore } from "redux-persist";
-import { authApi } from "@/features/userAuth/api/authApi";
-import { getStorage } from "@/app/store/storage";
+import { baseApi } from "@/shared/api/baseApi";
+import { storage } from "@/app/store/storage";
 
 export const persistConfig = {
   key: "root",
-  storage: await getStorage(),
+  storage: storage,
   whitelist: ["auth"],
 };
 
@@ -19,7 +19,8 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
-    }).concat(authApi.middleware),
+    }).concat(baseApi.middleware),
 });
 
 export const persistor = persistStore(store);
+
