@@ -44,20 +44,9 @@ export function LoginCard() {
 
   const handleClickLogin = async () => {
     try {
-      const response = await login({ username, password }).unwrap();
-      console.log("[LOGIN] Response received:", response);
-      
-      dispatch(
-        setAuth({
-          user: { username, password },
-          accessToken: (response as any).accessToken,
-          refreshToken: (response as any).refreshToken,
-        }),
-      );
-      
-      console.log("[LOGIN] Dispatch completed, waiting for persist...");
-      await new Promise(resolve => setTimeout(resolve, 100));
-      console.log("[LOGIN] Now navigating to dashboard");
+      await login({ username, password }).unwrap();
+
+      dispatch(setAuth({ username: username }));
       router.push("/dashboard");
     } catch (err) {
       console.log("[LOGIN] Error:", err);
@@ -161,6 +150,7 @@ export function LoginCard() {
           </span>
         )}
         <Button
+          type="button"
           disabled={
             !!validateError.username ||
             !!validateError.password ||

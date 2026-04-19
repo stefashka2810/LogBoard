@@ -1,6 +1,5 @@
 import { baseApi } from "@/shared/api/baseApi";
 import { User } from "@/entities/user/model/types";
-import { LoginResponse } from "@/features/userAuth/api/types";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 export const authApi = baseApi.injectEndpoints({
@@ -12,44 +11,47 @@ export const authApi = baseApi.injectEndpoints({
         method: "POST",
       }),
       transformErrorResponse: (error: FetchBaseQueryError) => {
-        if (error.status === "FETCH_ERROR") {
-          return "Сервер недоступен. Проверьте подключение";
+        if (error.status === 400) {
+          return "Введите корректные пользовательские данные";
         }
-        if (
-          error.status !== "PARSING_ERROR" &&
-          error.status !== "TIMEOUT_ERROR" &&
-          error.status !== "CUSTOM_ERROR"
-        ) {
-          const data = error.data as { error?: string } | undefined;
-          if (data?.error) return data.error;
+        if (error.status === 409) {
+          return "Пользователь с таким username уже существует";
         }
-        return "Произошла ошибка";
+        return "Внутренняя ошибка сервера, повторите попытку позже";
       },
     }),
 
-    loginUser: builder.mutation<LoginResponse, User>({
+    loginUser: builder.mutation<void, User>({
       query: (userData: User) => ({
         url: "/login",
         body: userData,
         method: "POST",
       }),
-      transformResponse: (response: LoginResponse) => response,
       transformErrorResponse: (error: FetchBaseQueryError) => {
-        if (error.status === "FETCH_ERROR") {
-          return "Сервер недоступен. Проверьте подключение";
+        if (error.status === 400) {
+          return "Введите корректные пользовательские данные";
         }
-        if (
-          error.status !== "PARSING_ERROR" &&
-          error.status !== "TIMEOUT_ERROR" &&
-          error.status !== "CUSTOM_ERROR"
-        ) {
-          const data = error.data as { error?: string } | undefined;
-          if (data?.error) return data.error;
+        if (error.status === 401) {
+          return "Неверный username или пароль";
         }
-        return "Произошла ошибка";
+        return "Внутренняя ошибка сервера, повторите попытку позже";
+      },
+    }),
+
+    logoutUser: builder.mutation<void, void>({
+      query: () => ({
+        url: "/logout",
+        method: "POST",
+      }),
+      transformErrorResponse: () => {
+        return "Внутренняя ошибка сервера, повторите попытку позже";
       },
     }),
   }),
 });
 
-export const { useRegisterUserMutation, useLoginUserMutation } = authApi;
+export const {
+  useRegisterUserMutation,
+  useLoginUserMutation,
+  useLogoutUserMutation,
+} = authApi;

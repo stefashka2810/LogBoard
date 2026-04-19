@@ -20,7 +20,6 @@ export default function RootLayout({
     <html lang="ru" data-scroll-behavior="smooth">
       <body className={`${manrope.variable} font-sans`}>
         <div id="portal-root" />
-
         <AppProvider>{children}</AppProvider>
       </body>
     </html>

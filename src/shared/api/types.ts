@@ -3,5 +3,5 @@ export interface ErrorResponse {
 }
 
 export interface RefreshResponse {
-  access_token: string;
+  accessToken: string;
 }
