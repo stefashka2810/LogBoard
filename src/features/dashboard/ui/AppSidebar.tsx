@@ -27,11 +27,7 @@ import { lazy, Suspense } from "react";
 const AddProject = lazy(() => import("@/features/dashboard/ui/AddProject"));
 const ProjectList = lazy(() => import("@/features/projectWork/ui/ProjectList"));
 
-export function AppSidebar({
-  onClickLogout,
-}: {
-  onClickLogout: (state: boolean) => void;
-}) {
+export function AppSidebar() {
   return (
     <Sidebar className="bg-[#AFA3FD] text-black">
       <SidebarHeader className="p-3">
@@ -50,9 +46,7 @@ export function AppSidebar({
             Участвую в проектах
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <Suspense fallback={<div>Загрузка проектов...</div>}>
-              <ProjectList />
-            </Suspense>
+            <ProjectList />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
@@ -70,7 +64,7 @@ export function AppSidebar({
                   <ChevronDown className="ml-auto size-4 text-black/70" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <LogoutMenu onClickLogout={onClickLogout} />
+              <LogoutMenu />
             </DropdownMenu>
           </SidebarMenuItem>
         </SidebarMenu>

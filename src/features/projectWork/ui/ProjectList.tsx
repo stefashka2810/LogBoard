@@ -19,6 +19,10 @@ import {
 } from "@/shared/ui/sheet";
 import { useIsMobile } from "@/widgets/landing/lib/use-mobile";
 import ConfirmProjectDelete from "@/features/projectWork/ui/ConfirmProjectDelete";
+import { useDispatch } from "react-redux";
+import { Project } from "@/entities/project/model/types";
+import { useRouter } from "next/navigation";
+import { setProjects } from "@/features/projectWork/model/projectsWorkSlice";
 
 const ProjectList = () => {
   const { data, isError, isLoading } = useGetProjectsQuery();
@@ -29,7 +33,14 @@ const ProjectList = () => {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
     null,
   );
+  const dispatch = useDispatch();
+  const router = useRouter();
 
+  useEffect(() => {
+    if (data && data.length > 0) {
+      dispatch(setProjects(data));
+    }
+  }, [data, dispatch]);
 
   if (isLoading) {
     return (
@@ -81,6 +92,10 @@ const ProjectList = () => {
     setSelectedProjectId(null);
   };
 
+  const handleClickProject = (project: Project) => {
+    router.push(`/projects/${project.id}`);
+  };
+
   const sortedData = [...(data || [])].sort((a, b) => {
     const dateA = new Date(a.updated_at).getTime();
     const dateB = new Date(b.updated_at).getTime();
@@ -92,7 +107,11 @@ const ProjectList = () => {
       <SidebarMenu>
         {sortedData.map((p) => (
           <SidebarMenuItem key={p.id}>
-            <SidebarMenuButton asChild className="hover:bg-[#E4E0FF]">
+            <SidebarMenuButton
+              asChild
+              className="hover:bg-[#E4E0FF] hover:cursor-pointer z-8"
+              onClick={() => handleClickProject(p)}
+            >
               <span className="flex flex-row w-full h-max justify-between items-center">
                 <span className="flex flex-row gap-2 items-center">
                   <span className="inline-flex p-1 size-5 items-center justify-center rounded-md bg-black/10 text-[10px] font-semibold text-black">
@@ -106,8 +125,11 @@ const ProjectList = () => {
 
                 <CircleX
                   stroke="black"
-                  className="hover:cursor-pointer opacity-30 hover:opacity-50"
-                  onClick={() => handleOpenModal(p.id)}
+                  className="delete-icon hover:cursor-pointer opacity-30 hover:opacity-50 z-9"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleOpenModal(p.id);
+                  }}
                 />
               </span>
             </SidebarMenuButton>

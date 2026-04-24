@@ -7,24 +7,17 @@ import { setLogout } from "@/features/userAuth/model/authSlice";
 import { LogOut, Trash } from "lucide-react";
 import { useLogoutUserMutation } from "@/features/userAuth/api/authApi";
 
-const LogoutMenu = ({
-  onClickLogout,
-}: {
-  onClickLogout: (state: boolean) => void;
-}) => {
+const LogoutMenu = () => {
   const dispatch = useDispatch();
   const [logout] = useLogoutUserMutation();
 
   const handleLogout = async () => {
-    onClickLogout(true);
-
     try {
       await logout().unwrap();
     } catch (error) {
       console.log("[LOGOUT] Request failed:", error);
     } finally {
       dispatch(setLogout());
-      onClickLogout(false);
     }
   };
 

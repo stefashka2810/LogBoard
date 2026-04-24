@@ -7,7 +7,7 @@ import { storage } from "@/app/store/storage";
 export const persistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["auth"],
+  whitelist: ["auth", "projectsWork"],
 };
 
 export const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -23,4 +23,3 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
-

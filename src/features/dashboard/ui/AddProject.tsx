@@ -2,7 +2,12 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 import Modal from "@/shared/ui/Modal";
 import AddProjectForm from "@/features/projectWork/ui/AddProjectForm";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/shared/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/shared/ui/sheet";
 import { useIsMobile } from "@/widgets/landing/lib/use-mobile";
 
 const AddProject = ({

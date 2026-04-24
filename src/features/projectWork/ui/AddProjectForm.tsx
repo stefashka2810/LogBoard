@@ -42,7 +42,7 @@ export function AddProjectForm({
         onLoginSuccessAction();
       }, 2000);
     } catch (error) {
-      console.log("Failed to create project:", error);
+      console.log("Failed to create projects:", error);
     }
   };
 
