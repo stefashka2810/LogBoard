@@ -8,6 +8,8 @@ import Image from "next/image";
 import { ApiKeyList } from "@/features/apiKeyWork/ui/ApiKeyList";
 import { Integration } from "@/widgets/projects/ui/Integration";
 import { AddApiKey } from "@/features/apiKeyWork/ui/AddApiKey";
+import { AddProjectMember } from "@/features/projectWork/ui/AddProjectMember";
+import { ManageProjectMembers } from "@/features/projectWork/ui/ManageProjectMembers";
 
 const ProjectPage = () => {
   const projects = useSelector(
@@ -43,32 +45,43 @@ const ProjectPage = () => {
     >
       <div className="w-full mx-auto">
         <div className=" rounded-2xl  flex flex-col  ">
-          <div className="flex flex-col  p-8 sm:p-12">
-            <div className="flex flex-row w-full justify-between items-start">
+          <div className="flex flex-col p-8 sm:p-12">
+            <div className="flex flex-row w-full justify-between items-start ">
               <div>
-                <h1 className="text-h1 font-bold text-black  mb-2">
+                <h1 className="text-h1 font-bold text-black  mb-2 ">
                   {currentProject?.name.toUpperCase() ||
                     "Название проекта".toUpperCase()}
                 </h1>
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-body font-medium bg-[#4C6DFA]/20 text-[#4C6DFA] ">
-                  Владелец: {currentProject?.owner || "Неизвестен"}
+                  Роль в проекте: {currentProject?.role || "Неизвестно"}
                 </span>
               </div>
-              <span
-                onClick={() => {
-                  router.push(`/dashboard`);
-                }}
-                className="inline-flex gap-2 items-center px-3 py-1 rounded-full text-body font-medium bg-[#4C6DFA]/20 text-[#4C6DFA] hover:cursor-pointer"
-              >
-                <Image
-                  src={"/images/Vector 2.svg"}
-                  alt={"vector"}
-                  width={"30"}
-                  height={"30"}
-                  color={"#4C6DFA"}
-                ></Image>
-                Вернуться
-              </span>
+              <div className={"flex flex-row sm:gap-3 gap-1 mt-2"}>
+                {currentProject?.role !== "READER" && (
+                  <ManageProjectMembers
+                    {...currentProject}
+                  ></ManageProjectMembers>
+                )}
+                {currentProject?.role !== "READER" && (
+                  <AddProjectMember {...currentProject}></AddProjectMember>
+                )}
+
+                <span
+                  onClick={() => {
+                    router.push(`/dashboard`);
+                  }}
+                  className="sm:inline-flex hidden  gap-2 items-center px-3 py-1 rounded-full text-body font-medium bg-[#4C6DFA]/20 text-[#4C6DFA] hover:cursor-pointer"
+                >
+                  <Image
+                    src={"/images/Vector 2.svg"}
+                    alt={"vector"}
+                    width={"30"}
+                    height={"30"}
+                    color={"#4C6DFA"}
+                  ></Image>
+                  Вернуться
+                </span>
+              </div>
             </div>
             <div className="mt-4 text-black ">
               <h3 className="text-h3 font-semibold mb-2">Описание проекта</h3>

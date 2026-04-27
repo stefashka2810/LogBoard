@@ -24,7 +24,7 @@ import UserInfo from "@/entities/user/ui/UserInfo";
 import LogoutMenu from "@/features/userAuth/ui/LogoutMenu";
 import { lazy, Suspense } from "react";
 
-const AddProject = lazy(() => import("@/features/dashboard/ui/AddProject"));
+const AddProject = lazy(() => import("@/features/projectWork/ui/AddProject"));
 const ProjectList = lazy(() => import("@/features/projectWork/ui/ProjectList"));
 
 export function AppSidebar() {

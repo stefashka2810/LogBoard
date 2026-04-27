@@ -1,10 +1,12 @@
 import Image from "next/image";
-import { Check, Copy } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, Copy } from "lucide-react";
 import { useState } from "react";
 import { Project } from "@/entities/project/model/types";
 
 export const Integration = (currentProject: Project) => {
   const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
 
   const handleCopy = async (value: string, field: string) => {
     try {
@@ -65,10 +67,34 @@ export const Integration = (currentProject: Project) => {
           <div className="rounded-xl bg-white p-3 text-body sm:p-4">
             <span className="text-h3 font-bold text-[#A33E94]">ЭТАП 3</span>
             <br />
-            Отправьте пакет логов на POST /logs/ingest
-            <div className="mt-3 rounded-lg bg-[#A33E94]/80 p-3 text-xs leading-5 text-white">
-              <pre className="overflow-x-auto whitespace-pre-wrap break-words font-mono">
-                <code>{`fetch("/logs/ingest", {
+            <span className="flex w-full items-center justify-between gap-4">
+              Отправьте пакет логов на POST /logs/ingest, получите ingestionId
+              {open1 ? (
+                <ChevronUp
+                  className="shrink-0 hover:cursor-pointer"
+                  onClick={() => setOpen1(false)}
+                />
+              ) : (
+                <ChevronDown
+                  className="shrink-0 hover:cursor-pointer"
+                  onClick={() => {
+                    setOpen1(true);
+                    setOpen2(false);
+                  }}
+                />
+              )}
+            </span>
+            <div
+              className={`grid transition-all duration-300 ease-out ${
+                open1
+                  ? "mt-3 grid-rows-[1fr] opacity-100"
+                  : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="rounded-lg bg-[#A33E94]/80 p-3 text-xs leading-5 text-white">
+                  <pre className="overflow-x-auto whitespace-pre-wrap break-words font-mono">
+                    <code>{`fetch("/logs/ingest", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -85,7 +111,47 @@ export const Integration = (currentProject: Project) => {
     ]
   })
 })`}</code>
-              </pre>
+                  </pre>
+                </div>
+              </div>
+            </div>
+            <span className="mt-3 flex w-full items-center justify-between gap-4">
+              Используйте GET /logs/ingest/ {"{"}ingestionId{"}"} для проверки
+              статуса обработки пакета логов
+              {open2 ? (
+                <ChevronUp
+                  className="shrink-0 hover:cursor-pointer"
+                  onClick={() => setOpen2(false)}
+                />
+              ) : (
+                <ChevronDown
+                  className="shrink-0 hover:cursor-pointer"
+                  onClick={() => {
+                    setOpen2(true);
+                    setOpen1(false);
+                  }}
+                />
+              )}
+            </span>
+            <div
+              className={`grid transition-all duration-300 ease-out ${
+                open2
+                  ? "mt-3 grid-rows-[1fr] opacity-100"
+                  : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="rounded-lg bg-[#4C6DFA]/85 p-3 text-xs leading-5 text-white">
+                  <pre className="overflow-x-auto whitespace-pre-wrap break-words font-mono">
+                    <code>{`fetch(\`/logs/ingest/\${ingestionId}\`, {
+  method: "GET",
+  headers: {
+    "X-API-Key": "<API_KEY>"
+  }
+})`}</code>
+                  </pre>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -108,7 +174,7 @@ export const Integration = (currentProject: Project) => {
             </p>
           </div>
 
-          <div className="absolute flex flex-col left-[2%] top-[30%] w-fit rounded-xl bg-white p-4 text-body">
+          <div className="absolute flex flex-col left-[2%] top-[30%] w-fit rounded-xl bg-white px-4 py-3 text-body">
             <span className={"text-[#A33E94] font-bold text-h3"}>ЭТАП 1</span>
             Создайте API-ключ в блоке ниже, сохраните его сразу в надежном
             месте!
@@ -116,17 +182,17 @@ export const Integration = (currentProject: Project) => {
             Если хотите сделать ключ бессрочным, то при создании оставьте
             соответствующее поле пустым
           </div>
-          <div className="absolute left-[30%] top-[46%]">
+          <div className="absolute left-[20%] top-[47%]">
             <Image
               src="/images/Vector 64.png"
               alt=""
               width={91}
               height={109}
-              className="h-auto w-[91px]"
+              className="h-auto w-[95px]"
             />
           </div>
 
-          <div className="absolute left-[6%] bottom-[20%] w-fit rounded-xl bg-white p-4 text-body">
+          <div className="absolute left-[13%] bottom-[18%] w-fit rounded-xl bg-white px-4 py-3 text-body">
             <span className={"text-[#A33E94] font-bold text-h3"}>ЭТАП 2</span>
             <br />
             Скопируйте projectId, затем передайте его и API-ключ
@@ -149,23 +215,52 @@ export const Integration = (currentProject: Project) => {
             </div>
           </div>
 
-          <div className="absolute top-[67%] right-[38%]">
+          <div className="absolute top-[50%] right-[40%]">
             <Image
-              src="/images/Vector 70.png"
+              src="/images/Vector 114.png"
               alt=""
               width={91}
               height={109}
-              className="h-auto w-52"
+              className="h-auto w-40"
             />
           </div>
 
-          <div className="absolute right-[2%] top-[22%] max-w-[40%] rounded-xl bg-white p-4 text-body">
+          <div className="absolute right-[2%] top-1/2 max-w-[40%] -translate-y-1/2 rounded-xl bg-white px-4 py-3 text-body">
             <span className={"text-[#A33E94] font-bold text-h3"}>ЭТАП 3</span>
             <br />
-            Отправьте пакет логов на POST /logs/ingest
-            <div className="mt-3 rounded-lg bg-[#A33E94]/80 p-3 text-xs leading-5 text-white">
-              <pre className="overflow-x-auto whitespace-pre-wrap break-words font-mono">
-                <code>{`fetch("/logs/ingest", {
+            <span
+              className={
+                "flex flex-row w-full justify-between gap-6 items-center"
+              }
+            >
+              Отправьте пакет логов на POST /logs/ingest, получите ingestionId
+              {open1 ? (
+                <ChevronUp
+                  className="shrink-0 hover:cursor-pointer "
+                  onClick={() => setOpen1(false)}
+                />
+              ) : (
+                <ChevronDown
+                  className="shrink-0 hover:cursor-pointer"
+                  onClick={() => {
+                    setOpen1(true);
+                    setOpen2(false);
+                  }}
+                />
+              )}
+            </span>
+
+            <div
+              className={`grid transition-all duration-300 ease-out ${
+                open1
+                  ? "mt-2 grid-rows-[1fr] opacity-100"
+                  : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="rounded-lg bg-[#A33E94]/80 p-2 text-xs leading-5 text-white">
+                  <pre className="overflow-x-auto whitespace-pre-wrap break-words font-mono">
+                    <code>{`fetch("/logs/ingest", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -182,7 +277,51 @@ export const Integration = (currentProject: Project) => {
     ]
   })
 })`}</code>
-              </pre>
+                  </pre>
+                </div>
+              </div>
+            </div>
+            <span
+              className={
+                "mt-2 flex flex-row w-full gap-6 justify-between items-center"
+              }
+            >
+              Используйте GET /logs/ingest/ {"{"}ingestionId{"}"} для проверки{" "}
+              статуса <br></br> обработки пакета логов
+              {open2 ? (
+                <ChevronUp
+                  className="shrink-0 hover:cursor-pointer"
+                  onClick={() => setOpen2(false)}
+                />
+              ) : (
+                <ChevronDown
+                  className="shrink-0 hover:cursor-pointer"
+                  onClick={() => {
+                    setOpen2(true);
+                    setOpen1(false);
+                  }}
+                />
+              )}
+            </span>
+            <div
+              className={`grid transition-all duration-300 ease-out ${
+                open2
+                  ? "mt-2 grid-rows-[1fr] opacity-100"
+                  : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="rounded-lg bg-[#4C6DFA]/85 p-2 text-xs leading-5 text-white">
+                  <pre className="overflow-x-auto whitespace-pre-wrap break-words font-mono">
+                    <code>{`fetch(\`/logs/ingest/\${ingestionId}\`, {
+  method: "GET",
+  headers: {
+    "X-API-Key": "<API_KEY>"
+  }
+})`}</code>
+                  </pre>
+                </div>
+              </div>
             </div>
           </div>
         </div>

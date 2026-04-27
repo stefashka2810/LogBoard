@@ -7,10 +7,12 @@ function Modal({
   open,
   onClose,
   children,
+  maxWidth = 400,
 }: {
   open: boolean;
   onClose: () => void;
   children: ReactNode;
+  maxWidth?: number;
 }) {
   if (!open) return null;
 
@@ -39,7 +41,7 @@ function Modal({
           background: "#E4E0FF",
           borderRadius: 12,
           width: "90vw",
-          maxWidth: 400,
+          maxWidth,
           pointerEvents: "auto",
         }}
         onClick={(e) => e.stopPropagation()}

@@ -19,10 +19,7 @@ export const ApiKeyList = ({ projectId }: { projectId: string }) => {
 
   if (isError) {
     return (
-      <div className="flex min-h-56 w-full flex-col items-center justify-center rounded-[1.5rem] border border-[#A33E94]/15 bg-[linear-gradient(180deg,rgba(255,255,255,0.75),rgba(163,62,148,0.06))] px-6 py-10 text-center">
-        <div className="rounded-full bg-[#A33E94]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#A33E94]">
-          Ошибка
-        </div>
+      <div className="flex min-h-56 w-full flex-col items-center justify-center rounded-[1.5rem] border border-[#A33E94]/15  px-6 py-10 text-center">
         <h3 className="mt-4 text-lg font-semibold text-[#15204B]">
           Не удалось загрузить API-ключи
         </h3>
@@ -56,10 +53,6 @@ export const ApiKeyList = ({ projectId }: { projectId: string }) => {
         <h3 className="text-lg font-semibold text-[#15204B]">
           Нет активных ключей
         </h3>
-        <p className="mt-2 max-w-md text-sm leading-6 text-[#4B5B8F]">
-          Создайте новый API-ключ, чтобы подключить backend проекта к загрузке
-          логов в LogBoard.
-        </p>
       </div>
     );
   }

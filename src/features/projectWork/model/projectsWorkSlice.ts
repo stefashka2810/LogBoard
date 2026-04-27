@@ -4,6 +4,7 @@ import { Project } from "@/entities/project/model/types";
 
 const initialProjectsWorkState: ProjectsWorkSliceState = {
   projects: [],
+  selectedProject: null,
 };
 
 export const projectsWorkSlice = createSlice({
@@ -16,7 +17,11 @@ export const projectsWorkSlice = createSlice({
     setClearProjects: (state) => {
       state.projects = [];
     },
+    setSelectedProject: (state, action: { payload: Project }) => {
+      state.selectedProject = action.payload;
+    },
   },
 });
 
-export const { setProjects, setClearProjects } = projectsWorkSlice.actions;
+export const { setProjects, setClearProjects, setSelectedProject } =
+  projectsWorkSlice.actions;
