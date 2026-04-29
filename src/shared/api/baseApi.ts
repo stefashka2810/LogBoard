@@ -9,6 +9,7 @@ import { setLogout } from "@/features/userAuth/model/authSlice";
 import { Mutex } from "async-mutex";
 
 const PUBLIC_URLS = ["/register", "/login", "/refresh"];
+const SKIP_REFRESH_URLS = ["/logs/search", "/logs/timeline"];
 // Default to the local Next.js proxy in every environment.
 // If direct backend access is really needed, it can still be set explicitly via env.
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "/api";
@@ -52,8 +53,16 @@ const fetchBaseQueryWithAuth: BaseQueryFn<
 
   const url = typeof args === "string" ? args : args.url;
   const isPublic = PUBLIC_URLS.some((endpoint) => url.includes(endpoint));
+  const shouldSkipRefresh = SKIP_REFRESH_URLS.some((endpoint) =>
+    url.includes(endpoint),
+  );
 
-  if (!isPublic && result.error && result.error.status === 401) {
+  if (
+    !isPublic &&
+    !shouldSkipRefresh &&
+    result.error &&
+    result.error.status === 401
+  ) {
     console.log("[API] Got 401, trying to refresh...");
 
     if (!mutex.isLocked()) {
