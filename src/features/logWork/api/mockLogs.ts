@@ -6,68 +6,37 @@ import {
   LogTimelineResponse,
 } from "@/features/logWork/api/types";
 
-const MOCK_LOGS: LogEntry[] = [
-  {
-    level: "INFO",
-    message: "User signed in successfully",
-    timestamp: "2026-05-17T08:10:00.000Z",
-  },
-  {
-    level: "WARN",
-    message: "Slow response from payment service",
-    timestamp: "2026-05-17T08:20:00.000Z",
-  },
-  {
-    level: "ERROR",
-    message: "Failed to load dashboard widgets",
-    timestamp: "2026-05-17T08:35:00.000Z",
-  },
-  {
-    level: "DEBUG",
-    message: "Refreshing cached projects list",
-    timestamp: "2026-05-17T09:00:00.000Z",
-  },
-  {
-    level: "TRACE",
-    message: "Sidebar render cycle completed",
-    timestamp: "2026-05-17T09:05:00.000Z",
-  },
-  {
-    level: "INFO",
-    message: "Project members loaded",
-    timestamp: "2026-05-17T09:20:00.000Z",
-  },
-  {
-    level: "WARN",
-    message: "API key expires in 3 days",
-    timestamp: "2026-05-17T10:00:00.000Z",
-  },
-  {
-    level: "ERROR",
-    message: "Kafka consumer connection dropped",
-    timestamp: "2026-05-17T10:15:00.000Z",
-  },
-  {
-    level: "INFO",
-    message: "Retry to backend completed",
-    timestamp: "2026-05-17T10:40:00.000Z",
-  },
-  {
-    level: "DEBUG",
-    message: "Logs search query executed",
-    timestamp: "2026-05-17T11:10:00.000Z",
-  },
-  {
-    level: "INFO",
-    message: "Timeline data prepared",
-    timestamp: "2026-05-17T11:30:00.000Z",
-  },
-  {
-    level: "ERROR",
-    message: "Unauthorized request detected",
-    timestamp: "2026-05-17T11:50:00.000Z",
-  },
+const MOCK_LOG_BLUEPRINT: Array<{
+  level: LogLevel;
+  message: string;
+  minutesAgo: number;
+}> = [
+  { level: "INFO", message: "User signed in successfully", minutesAgo: 690 },
+  { level: "WARN", message: "Slow response from payment service", minutesAgo: 675 },
+  { level: "ERROR", message: "Failed to load dashboard widgets", minutesAgo: 650 },
+  { level: "DEBUG", message: "Refreshing cached projects list", minutesAgo: 625 },
+  { level: "TRACE", message: "Sidebar render cycle completed", minutesAgo: 615 },
+  { level: "INFO", message: "Project members loaded", minutesAgo: 595 },
+  { level: "WARN", message: "API key expires in 3 days", minutesAgo: 540 },
+  { level: "ERROR", message: "Kafka consumer connection dropped", minutesAgo: 515 },
+  { level: "INFO", message: "Retry to backend completed", minutesAgo: 490 },
+  { level: "DEBUG", message: "Logs search query executed", minutesAgo: 445 },
+  { level: "INFO", message: "Timeline data prepared", minutesAgo: 420 },
+  { level: "ERROR", message: "Unauthorized request detected", minutesAgo: 390 },
 ];
+
+function createMockLogs(): LogEntry[] {
+  const now = Date.now();
+
+  return MOCK_LOG_BLUEPRINT.map((item) => ({
+    level: item.level,
+    message: item.message,
+    timestamp: new Date(now - item.minutesAgo * 60 * 1000).toISOString(),
+  })).sort(
+    (left, right) =>
+      new Date(right.timestamp).getTime() - new Date(left.timestamp).getTime(),
+  );
+}
 
 function filterLogs({
   level,
@@ -75,11 +44,12 @@ function filterLogs({
   from,
   to,
 }: Pick<LogSearchRequest, "level" | "message" | "from" | "to">) {
+  const mockLogs = createMockLogs();
   const fromDate = new Date(from).getTime();
   const toDate = new Date(to).getTime();
   const normalizedMessage = message?.trim().toLowerCase();
 
-  return MOCK_LOGS.filter((log) => {
+  return mockLogs.filter((log) => {
     const logTime = new Date(log.timestamp).getTime();
     const inRange = logTime >= fromDate && logTime <= toDate;
     const levelMatch = !level || level.length === 0 || level.includes(log.level);

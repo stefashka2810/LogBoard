@@ -42,7 +42,7 @@ describe("LogsInsightsSection", () => {
       />,
     );
 
-    expect(container.querySelector(".h-72")).toBeInTheDocument();
+    expect(container.querySelector(".h-80")).toBeInTheDocument();
   });
 
   it("renders timeline and distribution", () => {
@@ -71,7 +71,7 @@ describe("LogsInsightsSection", () => {
     );
 
     expect(screen.getByText("timeline-points-1")).toBeInTheDocument();
-    expect(screen.getByText("ERROR")).toBeInTheDocument();
-    expect(screen.getByText("WARN")).toBeInTheDocument();
+    expect(screen.getAllByText("ERROR")).not.toHaveLength(0);
+    expect(screen.getAllByText("WARN")).not.toHaveLength(0);
   });
 });

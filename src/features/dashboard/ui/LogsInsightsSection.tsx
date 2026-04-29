@@ -29,21 +29,42 @@ export function LogsInsightsSection({
 }) {
   return (
     <div className="flex flex-col gap-6">
-      <div className="rounded-3xl  bg-[#F07FA8]/20  p-6">
-        <h2 className="text-lg font-semibold text-[#111111]">
-          Таймлайн активности
-        </h2>
-        <p className="mt-1 text-sm text-[#111111]/55">
-          Фиолетовые столбцы показывают общий поток, желтые и розовые отметки
-          внутри столбца показывают WARN и ERROR.
-        </p>
+      <div className="overflow-hidden rounded-[32px]  bg-[#F07FA8]/20 p-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h2 className="text-lg font-semibold text-[#111111]">
+              Таймлайн активности
+            </h2>
+            <p className="mt-1 max-w-2xl text-sm leading-6 text-[#111111]/58">
+              Три отдельные линии показывают общий поток, WARN и ERROR по
+              времени. Так динамика и расхождения между уровнями читаются
+              заметно быстрее.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-3 text-xs text-[#111111]/60">
+          <div className="flex items-center gap-2">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#8E7FF0]" />
+            <span>Общий поток</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="h-2.5 w-4 rounded-full bg-[#FEEB86]" />
+            <span>WARN</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="h-2.5 w-4 rounded-full bg-[#F07FA8]" />
+            <span>ERROR</span>
+          </div>
+        </div>
+
         <div className="mt-4">
           {isTimelineError ? (
-            <div className="rounded-2xl border border-[#F07FA8] bg-white px-5 py-4 text-sm text-[#111111]">
+            <div className="rounded-[28px] border border-[#F07FA8] bg-white/90 px-5 py-4 text-sm text-[#111111] ">
               {getErrorMessage(timelineError, "Не удалось построить таймлайн.")}
             </div>
           ) : isTimelineLoading || isTimelineFetching ? (
-            <div className="h-72 rounded-2xl border border-[#E9E9E9] bg-white" />
+            <div className="h-80 rounded-[28px] border border-white/70 bg-white/75" />
           ) : (
             <LogsTimelineChart data={timeline} from={from} to={to} />
           )}

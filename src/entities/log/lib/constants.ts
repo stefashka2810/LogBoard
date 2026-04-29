@@ -9,7 +9,7 @@ export const LOG_LEVELS: LogLevel[] = [
 ];
 
 export const LOG_COLORS = {
-  yellow: "#FEEB86",
+  yellow: "#E4B400",
   purple: "#8E7FF0",
   pink: "#F07FA8",
   ink: "#111111",
