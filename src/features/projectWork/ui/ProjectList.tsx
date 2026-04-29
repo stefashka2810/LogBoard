@@ -10,14 +10,6 @@ import {
 import { ClipLoader } from "react-spinners";
 import { CircleX, ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
-import Modal from "@/shared/ui/Modal";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/shared/ui/sheet";
-import { useIsMobile } from "@/widgets/landing/lib/use-mobile";
 import ConfirmProjectDelete from "@/features/projectWork/ui/ConfirmProjectDelete";
 import { useDispatch, useSelector } from "react-redux";
 import { Project } from "@/entities/project/model/types";
@@ -34,7 +26,6 @@ const ProjectList = () => {
   const [deleteProject, { error, isSuccess, reset }] =
     useDeleteProjectMutation();
   const [open, setOpen] = useState(false);
-  const isMobile = useIsMobile();
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
     null,
   );
@@ -165,34 +156,15 @@ const ProjectList = () => {
           </SidebarMenuItem>
         ))}
       </SidebarMenu>
-      {isMobile ? (
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetContent side="bottom" className="h-fit">
-            <SheetHeader>
-              <SheetTitle>Удаление проекта</SheetTitle>
-            </SheetHeader>
-
-            <ConfirmProjectDelete
-              isError={isError}
-              error={error}
-              isSuccess={isSuccess}
-              isLoading={isLoading}
-              onClickDelete={handleClickDelete}
-              onCloseModal={handleCloseModal}
-            ></ConfirmProjectDelete>
-          </SheetContent>
-        </Sheet>
-      ) : (
-        <Modal open={open} onClose={handleCloseModal}>
-          <ConfirmProjectDelete
-            isError={isError}
-            error={error}
-            isSuccess={isSuccess}
-            isLoading={isLoading}
-            onClickDelete={handleClickDelete}
-            onCloseModal={handleCloseModal}
-          ></ConfirmProjectDelete>
-        </Modal>
+      {open && (
+        <ConfirmProjectDelete
+          isError={isError}
+          error={error}
+          isSuccess={isSuccess}
+          isLoading={isLoading}
+          onClickDelete={handleClickDelete}
+          onCloseModal={handleCloseModal}
+        />
       )}
     </>
   );

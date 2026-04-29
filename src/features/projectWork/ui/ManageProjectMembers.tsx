@@ -13,22 +13,33 @@ import {
   useUpdateProjectMemberRoleMutation,
 } from "@/features/projectWork/api/projectApi";
 import { Project } from "@/entities/project/model/types";
+import { useEffect, useState } from "react";
+import ConfirmDelete from "@/shared/ui/ConfirmDelete";
 import Modal from "@/shared/ui/Modal";
-import { useState } from "react";
 
 export const ManageProjectMembers = (project: Project) => {
   const { data, isLoading, isError, error } = useGetProjectMembersQuery(
     project.id,
   );
 
-  const [deleteProjectMember, { isLoading: isDeleting }] =
-    useDeleteProjectMemberMutation();
+  const [
+    deleteProjectMember,
+    {
+      isLoading: isDeleting,
+      isError: isDeleteError,
+      isSuccess: isDeleteSuccess,
+      error: deleteError,
+      reset: resetDeleteState,
+    },
+  ] = useDeleteProjectMemberMutation();
   const [
     updateProjectMemberRole,
     { isLoading: isUpdating, isError: isErrorUpdate, error: updateError },
   ] = useUpdateProjectMemberRoleMutation();
   const [open, setOpen] = useState(false);
-  const [deletingUserId, setDeletingUserId] = useState<number | null>(null);
+  const [confirmDeleteUserId, setConfirmDeleteUserId] = useState<number | null>(
+    null,
+  );
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
   const [selectedRole, setSelectedRole] = useState<"ADMIN" | "READER">(
     "READER",
@@ -36,12 +47,9 @@ export const ManageProjectMembers = (project: Project) => {
 
   const handleDelete = async (userId: number) => {
     try {
-      setDeletingUserId(userId);
       await deleteProjectMember({ projectId: project.id, userId }).unwrap();
     } catch (deleteError) {
       console.log("Failed to delete project member:", deleteError);
-    } finally {
-      setDeletingUserId(null);
     }
   };
 
@@ -67,6 +75,29 @@ export const ManageProjectMembers = (project: Project) => {
     }
   };
 
+  const handleOpenDeleteConfirm = (userId: number) => {
+    setConfirmDeleteUserId(userId);
+    resetDeleteState();
+  };
+
+  const handleCloseDeleteConfirm = () => {
+    if (isDeleting) return;
+
+    setConfirmDeleteUserId(null);
+    resetDeleteState();
+  };
+
+  useEffect(() => {
+    if (!isDeleteSuccess) return;
+
+    const timeout = window.setTimeout(() => {
+      setConfirmDeleteUserId(null);
+      resetDeleteState();
+    }, 2000);
+
+    return () => window.clearTimeout(timeout);
+  }, [isDeleteSuccess, resetDeleteState]);
+
   const getRoleStyles = (role: string) => {
     if (role === "OWNER") {
       return "text-[#3652D9]";
@@ -76,6 +107,10 @@ export const ManageProjectMembers = (project: Project) => {
     }
     return " text-[#1E5F7A]";
   };
+
+  const deletingMemberName =
+    data?.find((member) => member.userId === confirmDeleteUserId)?.username ??
+    "";
 
   return (
     <>
@@ -146,7 +181,6 @@ export const ManageProjectMembers = (project: Project) => {
                   const canDelete =
                     (project.role === "OWNER" && member.role !== "OWNER") ||
                     (project.role === "ADMIN" && member.role === "READER");
-                  const isDeletingCurrent = deletingUserId === member.userId;
                   const isEditingCurrent = editingUserId === member.userId;
 
                   return (
@@ -234,16 +268,12 @@ export const ManageProjectMembers = (project: Project) => {
                         {canDelete && !isEditingCurrent && (
                           <button
                             type="button"
-                            onClick={() => handleDelete(member.userId)}
+                            onClick={() => handleOpenDeleteConfirm(member.userId)}
                             disabled={isDeleting}
                             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#A33E94]/15 bg-white/80 text-[#A33E94] transition-colors hover:cursor-pointer hover:bg-[#A33E94] hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
                             aria-label="Удалить участника"
                           >
-                            {isDeletingCurrent ? (
-                              <LoaderCircle className="h-5 w-5 animate-spin" />
-                            ) : (
-                              <CircleX className="h-5 w-5" />
-                            )}
+                            <CircleX className="h-5 w-5" />
                           </button>
                         )}
                       </div>
@@ -255,6 +285,20 @@ export const ManageProjectMembers = (project: Project) => {
           </div>
         </div>
       </Modal>
+      <ConfirmDelete
+        open={confirmDeleteUserId !== null}
+        title={`Вы уверены, что хотите удалить участника "${deletingMemberName}"?`}
+        onConfirm={() =>
+          confirmDeleteUserId !== null && handleDelete(confirmDeleteUserId)
+        }
+        onClose={handleCloseDeleteConfirm}
+        error={deleteError}
+        isLoading={isDeleting}
+        isSuccess={isDeleteSuccess}
+        isError={isDeleteError}
+        successMessage="Участник успешно удален!"
+        modalTitle="Удаление участника"
+      />
     </>
   );
 };

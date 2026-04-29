@@ -8,19 +8,13 @@ import {
   SidebarGroupLabel,
   SidebarGroupContent,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
   SidebarHeader,
 } from "@/shared/ui/sidebar";
 
-import { ChevronDown, Eraser, Minus, X } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
+import { Eraser } from "lucide-react";
 
-import UserInfo from "@/entities/user/ui/UserInfo";
 import LogoutMenu from "@/features/userAuth/ui/LogoutMenu";
 import { lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -75,18 +69,7 @@ export function AppSidebar() {
       <SidebarFooter className="p-2">
         <SidebarMenu>
           <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton
-                  size="lg"
-                  className="text-black bg-[#E4E0FF] hover:bg-[#E4E0FF]/80 hover:cursor-pointer border-none outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 data-[state=open]:bg-[#E4E0FF]/80"
-                >
-                  <UserInfo />
-                  <ChevronDown className="ml-auto size-4 text-black/70" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <LogoutMenu />
-            </DropdownMenu>
+            <LogoutMenu />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

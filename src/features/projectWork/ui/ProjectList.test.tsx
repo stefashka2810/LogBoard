@@ -47,7 +47,9 @@ vi.mock("@/shared/ui/Modal", () => ({
 }));
 
 vi.mock("@/features/projectWork/ui/ConfirmProjectDelete", () => ({
-  default: () => <div>confirm-delete</div>,
+  default: function ConfirmProjectDeleteMock() {
+    return <div>confirm-delete</div>;
+  },
 }));
 
 describe("ProjectList", () => {

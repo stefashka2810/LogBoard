@@ -1,23 +1,27 @@
-import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@radix-ui/react-dropdown-menu";
 import { useDispatch } from "react-redux";
 import { setLogout } from "@/features/userAuth/model/authSlice";
-import { LogOut, Trash } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useLogoutUserMutation } from "@/features/userAuth/api/authApi";
 import { baseApi } from "@/shared/api/baseApi";
 import { persistor } from "@/app/store/store";
+import ConfirmDelete from "@/shared/ui/ConfirmDelete";
+import { useState } from "react";
+import UserInfo from "@/entities/user/ui/UserInfo";
 
 const LogoutMenu = () => {
   const dispatch = useDispatch();
-  const [logout] = useLogoutUserMutation();
+  const [logout, { isLoading, isError, error, reset }] =
+    useLogoutUserMutation();
+  const [open, setOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
       await logout().unwrap();
     } catch (error) {
-      console.log("[LOGOUT] Request failed, clearing local session anyway:", error);
+      console.log(
+        "[LOGOUT] Request failed, clearing local session anyway:",
+        error,
+      );
     } finally {
       persistor.pause();
       dispatch(setLogout());
@@ -28,29 +32,45 @@ const LogoutMenu = () => {
     }
   };
 
+  const handleOpenModal = () => {
+    reset();
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    if (isLoading) return;
+
+    setOpen(false);
+    reset();
+  };
+
   return (
     <>
-      <DropdownMenuContent
-        side="right"
-        align="end"
-        className="ml-1 w-56 rounded-lg bg-[#E4E0FF] p-1 shadow-md border-none outline-none"
-      >
-        <DropdownMenuItem
-          onClick={handleLogout}
-          className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm outline-none border-none focus:outline-none focus:ring-0 data-highlighted:bg-[#E4E0FF]/80 data-highlighted:outline-none"
+      <div className="flex min-h-12 items-center gap-2 rounded-lg bg-[#E4E0FF] px-2 py-2 text-black">
+        <UserInfo />
+        <button
+          type="button"
+          onClick={handleOpenModal}
+          className="ml-auto inline-flex h-8 w-8 items-center justify-center rounded-full hover:text-[#15204B] transition-colors hover:cursor-pointer text-[#15204B]/70  focus:outline-none focus:ring-0"
+          aria-label="Выйти из аккаунта"
         >
-          <span>
-            <LogOut size="20" />
-          </span>
-          Выйти из аккаунта
-        </DropdownMenuItem>
-        <DropdownMenuItem className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm text-destructive outline-none border-none focus:outline-none focus:ring-0 data-highlighted:bg-[#E4E0FF]/80 data-highlighted:outline-none">
-          <span>
-            <Trash size="20" />
-          </span>
-          Удалить аккаунт
-        </DropdownMenuItem>
-      </DropdownMenuContent>
+          <LogOut size={20} />
+        </button>
+      </div>
+
+      <ConfirmDelete
+        open={open}
+        title="Вы уверены, что хотите выйти из аккаунта?"
+        onConfirm={handleLogout}
+        onClose={handleCloseModal}
+        error={error}
+        isLoading={isLoading}
+        isError={isError}
+        isSuccess={false}
+        successMessage=""
+        confirmLabel="Да, выйти"
+        modalTitle="Выход из аккаунта"
+      />
     </>
   );
 };

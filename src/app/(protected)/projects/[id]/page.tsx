@@ -92,10 +92,10 @@ const ProjectPage = () => {
           </div>
           <Integration {...currentProject}></Integration>
         </div>
-        <div className="w-full p-8 sm:p-12">
-          <div className="rounded-[2rem] border border-[#4C6DFA]/20 bg-[#3652D9]/20 p-5  backdrop-blur-sm sm:p-7">
+        <div className="w-full px-0 py-8 sm:p-12">
+          <div className="rounded-none border-x-0 border-y border-[#4C6DFA]/20 bg-[#3652D9]/20 p-0 backdrop-blur-sm sm:rounded-[2rem] sm:border sm:p-7">
             <div className="flex flex-col w-full sm:flex-row sm:items-center justify-between gap-4">
-              <div>
+              <div className="px-4 pt-5 sm:px-0 sm:pt-0">
                 <span className="text-h2 font-bold text-[#4C6DFA]">
                   API КЛЮЧИ
                 </span>
@@ -104,9 +104,11 @@ const ProjectPage = () => {
                   и отзывайте ненужные.
                 </p>
               </div>
-              <AddApiKey {...currentProject}></AddApiKey>
+              <div className="px-4 sm:px-0">
+                <AddApiKey {...currentProject}></AddApiKey>
+              </div>
             </div>
-            <div className="mt-6 rounded-[1.5rem] border border-white/70 bg-white/65 p-3  sm:p-4">
+            <div className="mt-6 rounded-none border-x-0 border-y border-white/70 bg-white/65 p-1 sm:rounded-[1.5rem] sm:border sm:p-4">
               <ApiKeyList projectId={currentProject.id}></ApiKeyList>
             </div>
           </div>
