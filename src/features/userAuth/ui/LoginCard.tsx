@@ -23,6 +23,7 @@ import { setAuth } from "@/features/userAuth/model/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { baseApi } from "@/shared/api/baseApi";
 
 export function LoginCard() {
   const [username, setUsername] = useState("");
@@ -46,6 +47,7 @@ export function LoginCard() {
     try {
       await login({ username, password }).unwrap();
 
+      dispatch(baseApi.util.resetApiState());
       dispatch(setAuth({ username: username }));
       router.push("/dashboard");
     } catch (err) {

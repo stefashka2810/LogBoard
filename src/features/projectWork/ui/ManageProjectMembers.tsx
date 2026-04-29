@@ -101,7 +101,7 @@ export const ManageProjectMembers = (project: Project) => {
 
           <div className="mt-5 rounded-[1.25rem] border border-white/70 bg-white/60 p-3 sm:p-4">
             {isErrorUpdate && (
-              <div className="mb-4 rounded-xl border border-[#A33E94]/15 bg-[#A33E94]/8 px-4 py-3 text-sm text-[#A33E94]">
+              <div className="mb-4 text-body">
                 {typeof updateError === "string"
                   ? updateError
                   : "Не удалось обновить роль участника."}
@@ -176,8 +176,8 @@ export const ManageProjectMembers = (project: Project) => {
                                   onClick={() => setSelectedRole(role)}
                                   className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                                     selectedRole === role
-                                      ? "bg-[#4C6DFA] text-white"
-                                      : "bg-[#E4E0FF] text-[#3652D9] hover:cursor-pointer"
+                                      ? "bg-[#A33E94] text-white"
+                                      : "bg-[#E4E0FF] text-[#A33E94] hover:cursor-pointer"
                                   }`}
                                 >
                                   {role}
@@ -201,14 +201,10 @@ export const ManageProjectMembers = (project: Project) => {
                                 type="button"
                                 onClick={() => handleUpdateRole(member.userId)}
                                 disabled={isUpdating}
-                                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#4C6DFA]/15 bg-white/80 text-[#3652D9] transition-colors hover:cursor-pointer hover:bg-[#4C6DFA] hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#4C6DFA]/15 bg-white/80 text-[#A33E94] transition-colors hover:cursor-pointer hover:bg-[#A33E94] hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
                                 aria-label="Сохранить роль участника"
                               >
-                                {isUpdating ? (
-                                  <LoaderCircle className="h-5 w-5 animate-spin" />
-                                ) : (
-                                  <Check className="h-5 w-5" />
-                                )}
+                                <Check className="h-5 w-5" />
                               </button>
                               <button
                                 type="button"

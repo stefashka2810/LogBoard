@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import { setLogout } from "@/features/userAuth/model/authSlice";
 import { LogOut, Trash } from "lucide-react";
 import { useLogoutUserMutation } from "@/features/userAuth/api/authApi";
+import { baseApi } from "@/shared/api/baseApi";
+import { persistor } from "@/app/store/store";
 
 const LogoutMenu = () => {
   const dispatch = useDispatch();
@@ -15,9 +17,14 @@ const LogoutMenu = () => {
     try {
       await logout().unwrap();
     } catch (error) {
-      console.log("[LOGOUT] Request failed:", error);
+      console.log("[LOGOUT] Request failed, clearing local session anyway:", error);
     } finally {
+      persistor.pause();
       dispatch(setLogout());
+      dispatch(baseApi.util.resetApiState());
+      await persistor.flush();
+      await persistor.purge();
+      persistor.persist();
     }
   };
 

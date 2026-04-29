@@ -24,7 +24,13 @@ import {
 import { Label } from "@/shared/ui/Label";
 import { Input } from "@/shared/ui/Input";
 
-const AddProjectMemberForm = ({ project }: { project: Project }) => {
+const AddProjectMemberForm = ({
+  project,
+  onClose,
+}: {
+  project: Project;
+  onClose: () => void;
+}) => {
   const isMobile = useIsMobile();
   const [username, setUsername] = useState("");
   const [touchedUsername, setTouchedUsername] = useState(false);
@@ -50,6 +56,8 @@ const AddProjectMemberForm = ({ project }: { project: Project }) => {
         username,
         role,
       }).unwrap();
+
+      setTimeout(() => onClose(), 2000);
     } catch (submitError) {
       console.log("Failed to add project member:", submitError);
     }
@@ -173,12 +181,18 @@ export const AddProjectMember = (project: Project) => {
             <SheetHeader>
               <SheetTitle>Добавить участника</SheetTitle>
             </SheetHeader>
-            <AddProjectMemberForm project={project} />
+            <AddProjectMemberForm
+              project={project}
+              onClose={() => handleOpenChange(false)}
+            />
           </SheetContent>
         </Sheet>
       ) : (
         <Modal open={open} onClose={() => handleOpenChange(false)}>
-          <AddProjectMemberForm project={project} />
+          <AddProjectMemberForm
+            project={project}
+            onClose={() => handleOpenChange(false)}
+          />
         </Modal>
       )}
 

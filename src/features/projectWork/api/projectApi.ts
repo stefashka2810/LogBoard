@@ -10,21 +10,34 @@ import {
 } from "@/features/projectWork/api/types";
 
 const transformProjectMembersError = (error: FetchBaseQueryError) => {
-  if (error.status === 400) {
+  const status =
+    typeof error.status === "number"
+      ? error.status
+      : "originalStatus" in error &&
+          typeof error.originalStatus === "number"
+        ? error.originalStatus
+        : null;
+
+  if (status === 400) {
     return "Ошибка валидации данных";
   }
-  if (error.status === 401) {
+  if (status === 401) {
     return "Пользователь не авторизован";
   }
-  if (error.status === 403) {
+  if (status === 403) {
     return "Недостаточно прав для выполнения операции";
   }
-  if (error.status === 404) {
+  if (status === 404) {
     return "Проект или пользователь не найден";
   }
-  if (error.status === 409) {
+  if (status === 409) {
     return "Пользователь уже является участником проекта";
   }
+
+  if (error.status === "FETCH_ERROR") {
+    return "Ошибка сети. Проверьте соединение и повторите попытку.";
+  }
+
   return "Внутренняя ошибка сервера, повторите попытку позже";
 };
 

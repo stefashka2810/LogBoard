@@ -3,6 +3,14 @@ import { rootReducer } from "@/app/store/rootReducer";
 import { persistReducer, persistStore } from "redux-persist";
 import { baseApi } from "@/shared/api/baseApi";
 import { storage } from "@/app/store/storage";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from "redux-persist";
 
 export const persistConfig = {
   key: "root",
@@ -17,7 +25,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).concat(baseApi.middleware),
 });

@@ -20,8 +20,15 @@ export const projectsWorkSlice = createSlice({
     setSelectedProject: (state, action: { payload: Project }) => {
       state.selectedProject = action.payload;
     },
+    setClearSelectedProject: (state) => {
+      state.selectedProject = null;
+    },
   },
 });
 
-export const { setProjects, setClearProjects, setSelectedProject } =
-  projectsWorkSlice.actions;
+export const {
+  setProjects,
+  setClearProjects,
+  setSelectedProject,
+  setClearSelectedProject,
+} = projectsWorkSlice.actions;

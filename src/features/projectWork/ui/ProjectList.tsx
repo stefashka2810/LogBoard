@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Project } from "@/entities/project/model/types";
 import { useRouter } from "next/navigation";
 import {
+  setClearSelectedProject,
   setProjects,
   setSelectedProject,
 } from "@/features/projectWork/model/projectsWorkSlice";
@@ -78,7 +79,7 @@ const ProjectList = () => {
 
     try {
       await deleteProject(selectedProjectId).unwrap();
-
+      dispatch(setClearSelectedProject());
       setTimeout(() => {
         setOpen(false);
         setSelectedProjectId(null);
