@@ -20,6 +20,7 @@ import { lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store/types";
 import { setClearSelectedProject } from "@/features/projectWork/model/projectsWorkSlice";
+import { useGetProjectsQuery } from "@/features/projectWork/api/projectApi";
 
 const AddProject = lazy(() => import("@/features/projectWork/ui/AddProject"));
 const ProjectList = lazy(() => import("@/features/projectWork/ui/ProjectList"));
@@ -28,6 +29,7 @@ export function AppSidebar() {
   const selectedProject = useSelector(
     (state: RootState) => state.projectsWork.selectedProject,
   );
+  const { isLoading, isError } = useGetProjectsQuery();
   const dispatch = useDispatch();
   return (
     <Sidebar className="bg-[#AFA3FD] text-black">
@@ -50,7 +52,7 @@ export function AppSidebar() {
               }
             >
               Участвую в проектах
-              {selectedProject && (
+              {selectedProject && !isLoading && !isError && (
                 <button
                   onClick={() => dispatch(setClearSelectedProject())}
                   className="inline-flex px-1 rounded-lg bg-[#E4E0FF] hover:bg-[#E4E0FF]/80 hover:cursor-pointer"

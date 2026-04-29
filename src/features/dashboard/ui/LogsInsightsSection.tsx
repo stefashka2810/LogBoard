@@ -1,10 +1,15 @@
 import { LOG_COLORS } from "@/entities/log/lib/constants";
-import { formatLargeNumber, getErrorMessage } from "@/entities/log/lib/formatters";
+import {
+  formatLargeNumber,
+  getErrorMessage,
+} from "@/entities/log/lib/formatters";
 import { LogsTimelineChart } from "@/entities/log/ui/LogsTimelineChart";
 import { LogLevel, LogTimelinePoint } from "@/entities/log/model/types";
 
 export function LogsInsightsSection({
   timeline,
+  from,
+  to,
   isTimelineError,
   timelineError,
   isTimelineLoading,
@@ -13,6 +18,8 @@ export function LogsInsightsSection({
   logsCount,
 }: {
   timeline: LogTimelinePoint[];
+  from: string;
+  to: string;
   isTimelineError: boolean;
   timelineError: unknown;
   isTimelineLoading: boolean;
@@ -22,7 +29,7 @@ export function LogsInsightsSection({
 }) {
   return (
     <div className="flex flex-col gap-6">
-      <div className="rounded-3xl border border-[#F07FA8] bg-white p-6">
+      <div className="rounded-3xl  bg-[#F07FA8]/20  p-6">
         <h2 className="text-lg font-semibold text-[#111111]">
           Таймлайн активности
         </h2>
@@ -38,7 +45,7 @@ export function LogsInsightsSection({
           ) : isTimelineLoading || isTimelineFetching ? (
             <div className="h-72 rounded-2xl border border-[#E9E9E9] bg-white" />
           ) : (
-            <LogsTimelineChart data={timeline} />
+            <LogsTimelineChart data={timeline} from={from} to={to} />
           )}
         </div>
       </div>

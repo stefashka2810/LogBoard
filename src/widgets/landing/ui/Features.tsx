@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { ArrowDownNarrowWide, CircleUserRound, Search } from "lucide-react";
+import { CircleUserRound, FolderCog, Search } from "lucide-react";
 
 const Features = () => {
   const cardBase =
-    "w-[clamp(190px,22vw,270px)] aspect-square rounded-4xl p-5 shadow-sm";
+    "w-[clamp(180px,22vw,270px)] aspect-square rounded-4xl p-4 shadow-sm";
   const cardLight = `${cardBase} bg-[#F1F1F1] text-black`;
   const cardDark = `${cardBase} bg-[#1A1A1A] text-white`;
 
@@ -16,7 +16,7 @@ const Features = () => {
     <>
       <section className={"grid lg:grid-cols-[50vw_1fr] lg:gap-2"}>
         <div className="relative flex flex-col h-fit after:block after:content-[''] after:h-[180px]">
-          <div className="relative w-[200px] h-[200px] lg:w-[250px] lg:h-[250px]">
+          <div className="relative w-[170px] h-[170px] lg:w-[250px] lg:h-[250px]">
             <Image
               src="/images/01.svg"
               alt="1"
@@ -26,7 +26,7 @@ const Features = () => {
             />
           </div>
 
-          <div className={"absolute top-1/4 left-10 flex flex-col gap-5"}>
+          <div className={"absolute top-1/5 left-10  flex flex-col gap-5"}>
             <span className={"text-[#616161] font-bold"}>Возможности</span>
             <span className={"text-h2 font-bold"}>
               ЛУЧШИЕ ВОЗМОЖНОСТИ <br />
@@ -34,14 +34,12 @@ const Features = () => {
             </span>
             <div
               className={
-                "text-body flex flex-row p-5 w-fit h-fit text-black italic rounded-4xl bg-[#83FF8F]"
+                "text-body flex flex-row p-4 w-fit h-fit text-black italic rounded-4xl bg-[#83FF8F]"
               }
             >
-              LogBoard — это централизованная система логирования, которая{" "}
-              <br />
-              помогает быстро находить, анализировать и управлять логами ваших{" "}
-              <br />
-              проектов.
+              LogBoard — это централизованная система логов, которая
+              предоставляет удобный интерфейс для их поиска, фильтрации и
+              анализа.
             </div>
           </div>
         </div>
@@ -57,8 +55,8 @@ const Features = () => {
                 <span className={"font-bold text-h3"}>Гибкий поиск</span>
                 <Search className={iconLight} strokeWidth={3} />
                 <span className={"text-body text-center"}>
-                  Поддерживает фильтрацию по дате, уровню и содержимому
-                  сообщения
+                  Поддерживает поиск по содержимому сообщения, фильтрацию по
+                  дате и уровню лога, сортировку по времени
                 </span>
               </div>
             </div>
@@ -68,8 +66,7 @@ const Features = () => {
                 <span className={"font-bold text-h3"}>Личный кабинет</span>
                 <CircleUserRound className={iconLight} strokeWidth={3} />
                 <span className={"text-body text-center"}>
-                  Кабинет пользователя для управления учётной записью, проектами
-                  и настройками
+                  Кабинет пользователя для безопасносного управления проектами
                 </span>
               </div>
             </div>
@@ -90,18 +87,20 @@ const Features = () => {
                 </div>
 
                 <span className={"text-body text-center"}>
-                  Наглядные графики логов с масштабированием по периоду
+                  Визуализация результатов анализа логов по их уровню
                 </span>
               </div>
             </div>
 
             <div className={cardLight}>
               <div className={cardInner}>
-                <span className={"font-bold text-h3"}>Сортировка</span>
-                <ArrowDownNarrowWide className={iconLight} strokeWidth={3} />
+                <span className={"font-bold text-h3 text-center"}>
+                  Управление проектами
+                </span>
+                <FolderCog className={iconLight} strokeWidth={3} />
                 <span className={"text-body text-center"}>
-                  Сортировка логов по дате, уровню и сообщению для быстрого
-                  анализа данных
+                  Доступ к проектам и их логам, возможность управлять их
+                  API-ключами и участниками
                 </span>
               </div>
             </div>

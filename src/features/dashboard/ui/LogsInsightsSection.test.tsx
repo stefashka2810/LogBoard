@@ -13,6 +13,8 @@ describe("LogsInsightsSection", () => {
     render(
       <LogsInsightsSection
         timeline={[]}
+        from={"2026-04-28T10:00:00.000Z"}
+        to={"2026-04-28T12:00:00.000Z"}
         isTimelineError={true}
         timelineError={"Ошибка таймлайна"}
         isTimelineLoading={false}
@@ -29,6 +31,8 @@ describe("LogsInsightsSection", () => {
     const { container } = render(
       <LogsInsightsSection
         timeline={[]}
+        from={"2026-04-28T10:00:00.000Z"}
+        to={"2026-04-28T12:00:00.000Z"}
         isTimelineError={false}
         timelineError={undefined}
         isTimelineLoading={true}
@@ -52,6 +56,8 @@ describe("LogsInsightsSection", () => {
             warnCount: 2,
           },
         ]}
+        from={"2026-04-28T10:00:00.000Z"}
+        to={"2026-04-28T12:00:00.000Z"}
         isTimelineError={false}
         timelineError={undefined}
         isTimelineLoading={false}

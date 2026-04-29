@@ -7,7 +7,12 @@ export function validateApiKeyName(name: string) {
 }
 
 export function validateApiKeyExpiration(dateStr: string) {
+  const trimmed = dateStr.trim();
+  if (!trimmed) return "";
+
   const selected = new Date(dateStr);
+  if (Number.isNaN(selected.getTime())) return "некорректная дата";
+
   const now = new Date();
   if (selected <= now) return "дата должна быть в будущем";
   return "";

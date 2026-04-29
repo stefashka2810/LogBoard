@@ -17,6 +17,7 @@ import {
   validateApiKeyExpiration,
 } from "@/features/apiKeyWork/model/validators";
 import { useCreateApiKeyMutation } from "@/features/apiKeyWork/api/apiKeyApi";
+import { toApiKeyExpirationIso } from "@/features/apiKeyWork/lib/date";
 import { useIsMobile } from "@/widgets/landing/lib/use-mobile";
 
 import { Calendar } from "@/shared/ui/Calendar";
@@ -60,11 +61,10 @@ export function AddApiKeyForm({
       if (!expiresAt || expiresAt.toString().trim() === "") {
         response = await createApiKey({ projectId, name }).unwrap();
       } else {
-        const isoDate = new Date(expiresAt.toString()).toISOString();
         response = await createApiKey({
           projectId,
           name,
-          expiresAt: isoDate,
+          expiresAt: toApiKeyExpirationIso(expiresAt),
         }).unwrap();
       }
 

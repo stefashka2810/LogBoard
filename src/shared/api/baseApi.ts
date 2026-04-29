@@ -9,6 +9,9 @@ import { setLogout } from "@/features/userAuth/model/authSlice";
 import { Mutex } from "async-mutex";
 
 const PUBLIC_URLS = ["/register", "/login", "/refresh"];
+// Default to the local Next.js proxy in every environment.
+// If direct backend access is really needed, it can still be set explicitly via env.
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "/api";
 
 const mutex = new Mutex();
 
@@ -29,10 +32,7 @@ const fetchWithManualLogoutRedirect: typeof fetch = async (input, init) => {
 };
 
 const baseQuery = fetchBaseQuery({
-  baseUrl:
-    process.env.NODE_ENV === "production"
-      ? "http://155.212.165.128:8080"
-      : "/api",
+  baseUrl: API_BASE_URL,
   fetchFn: fetchWithManualLogoutRedirect,
   prepareHeaders: (headers) => {
     headers.set("Accept", "application/json");

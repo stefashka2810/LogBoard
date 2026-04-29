@@ -84,4 +84,38 @@ describe("LogsTableSection", () => {
 
     expect(onLoadMore).toHaveBeenCalled();
   });
+
+  it("sorts logs by timestamp descending by default and toggles to ascending", () => {
+    render(
+      <LogsTableSection
+        logs={[
+          {
+            level: "INFO",
+            message: "Older log",
+            timestamp: "2026-04-28T10:00:00.000Z",
+          },
+          {
+            level: "ERROR",
+            message: "Newer log",
+            timestamp: "2026-04-28T12:00:00.000Z",
+          },
+        ]}
+        totalCount={2}
+        isLoading={false}
+        isError={false}
+        error={undefined}
+        isFetchingMore={false}
+        nextCursor={null}
+        onLoadMore={vi.fn()}
+      />,
+    );
+
+    const initialMessages = screen.getAllByText(/log$/).map((node) => node.textContent);
+    expect(initialMessages).toEqual(["Newer log", "Older log"]);
+
+    fireEvent.click(screen.getByRole("button", { name: /Сортировка по времени/i }));
+
+    const toggledMessages = screen.getAllByText(/log$/).map((node) => node.textContent);
+    expect(toggledMessages).toEqual(["Older log", "Newer log"]);
+  });
 });

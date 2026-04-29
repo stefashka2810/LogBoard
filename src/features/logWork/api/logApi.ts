@@ -6,6 +6,11 @@ import {
   LogTimelineResponse,
 } from "@/features/logWork/api/types";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import {
+  getMockLogsTimeline,
+  logsMockModeEnabled,
+  searchMockLogs,
+} from "@/features/logWork/api/mockLogs";
 
 const transformLogsError = (error: FetchBaseQueryError) => {
   const status =
@@ -36,25 +41,53 @@ const transformLogsError = (error: FetchBaseQueryError) => {
   return "Не удалось загрузить логи. Повторите попытку позже.";
 };
 
+const toBaseQueryError = (error: FetchBaseQueryError): FetchBaseQueryError => ({
+  status: "CUSTOM_ERROR",
+  error: transformLogsError(error),
+  data: null,
+});
+
 export const logApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     searchLogs: builder.mutation<LogSearchResponse, LogSearchRequest>({
-      query: (body) => ({
-        url: "/logs/search",
-        method: "POST",
-        body,
-      }),
-      transformErrorResponse: transformLogsError,
+      queryFn: async (body, _api, _extraOptions, baseQuery) => {
+        if (logsMockModeEnabled) {
+          return { data: searchMockLogs(body) };
+        }
+
+        const result = await baseQuery({
+          url: "/logs/search",
+          method: "POST",
+          body,
+        });
+
+        if ("error" in result && result.error) {
+          return { error: toBaseQueryError(result.error as FetchBaseQueryError) };
+        }
+
+        return { data: result.data as LogSearchResponse };
+      },
       invalidatesTags: ["Logs"],
     }),
 
     getLogsTimeline: builder.query<LogTimelineResponse, LogTimelineRequest>({
-      query: (body) => ({
-        url: "/logs/timeline",
-        method: "POST",
-        body,
-      }),
-      transformErrorResponse: transformLogsError,
+      queryFn: async (body, _api, _extraOptions, baseQuery) => {
+        if (logsMockModeEnabled) {
+          return { data: getMockLogsTimeline(body) };
+        }
+
+        const result = await baseQuery({
+          url: "/logs/timeline",
+          method: "POST",
+          body,
+        });
+
+        if ("error" in result && result.error) {
+          return { error: toBaseQueryError(result.error as FetchBaseQueryError) };
+        }
+
+        return { data: result.data as LogTimelineResponse };
+      },
       providesTags: ["Logs"],
     }),
   }),

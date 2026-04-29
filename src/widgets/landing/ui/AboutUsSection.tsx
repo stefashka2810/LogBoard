@@ -15,7 +15,7 @@ const AboutUsSection = () => {
       />
 
       <div className={"relative z-10 flex flex-col h-fit"}>
-        <div className="relative w-[230px] h-[230px] lg:w-[280px] lg:h-[280px] opacity-20">
+        <div className="relative w-[200px] h-[200px] lg:w-[280px] lg:h-[280px] opacity-20">
           <Image
             src="/images/02.svg"
             alt="2"
@@ -44,7 +44,7 @@ const AboutUsSection = () => {
       </div>
 
       <div className={"absolute right-0 bottom-0 "}>
-        <div className="relative w-[350px] h-[350px] md:w-[450px] md:h-[450px] lg:w-[550px] lg:h-[550px]">
+        <div className="relative w-[200px] h-[200px] md:w-[350px] md:h-[350px] lg:w-[550px] lg:h-[550px]">
           <Image
             src={"/images/macbook.svg"}
             alt={"laptop"}

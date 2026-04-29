@@ -246,6 +246,8 @@ export default function DashboardPage() {
 
           <LogsInsightsSection
             timeline={timeline}
+            from={filters.from}
+            to={filters.to}
             isTimelineError={isTimelineError}
             timelineError={timelineError}
             isTimelineLoading={isTimelineLoading}

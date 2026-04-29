@@ -6,6 +6,11 @@ import { AppSidebar } from "@/features/dashboard/ui/AppSidebar";
 import { setSelectedProject } from "@/features/projectWork/model/projectsWorkSlice";
 import { vi } from "vitest";
 
+const useGetProjectsQueryMock = vi.fn(() => ({
+  isLoading: false,
+  isError: false,
+}));
+
 vi.mock("@/shared/ui/sidebar", () => ({
   SidebarProvider: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   Sidebar: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
@@ -26,10 +31,6 @@ vi.mock("@radix-ui/react-dropdown-menu", () => ({
   DropdownMenuTrigger: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
 
-vi.mock("@/entities/user/ui/UserInfo", () => ({
-  default: () => <div>user-info</div>,
-}));
-
 vi.mock("@/features/userAuth/ui/LogoutMenu", () => ({
   default: () => <div>logout-menu</div>,
 }));
@@ -40,6 +41,10 @@ vi.mock("@/features/projectWork/ui/AddProject", () => ({
 
 vi.mock("@/features/projectWork/ui/ProjectList", () => ({
   default: () => <div>project-list</div>,
+}));
+
+vi.mock("@/features/projectWork/api/projectApi", () => ({
+  useGetProjectsQuery: () => useGetProjectsQueryMock(),
 }));
 
 function createTestStore() {
@@ -60,7 +65,7 @@ describe("AppSidebar integration", () => {
 
     expect(await screen.findByText("Проекты")).toBeInTheDocument();
     expect(await screen.findByText("project-list")).toBeInTheDocument();
-    expect(await screen.findByText("user-info")).toBeInTheDocument();
+    expect(await screen.findByText("logout-menu")).toBeInTheDocument();
   });
 
   it("clears selected project by eraser button", async () => {
@@ -87,5 +92,46 @@ describe("AppSidebar integration", () => {
     fireEvent.click(buttons[0]);
 
     expect(store.getState().projectsWork.selectedProject).toBeNull();
+  });
+
+  it("does not render eraser button while projects are loading or errored", async () => {
+    const store = createTestStore();
+    store.dispatch(
+      setSelectedProject({
+        id: "project-1",
+        name: "LogBoard",
+        description: "Logs dashboard",
+        created_at: "2026-04-27T10:00:00.000Z",
+        updated_at: "2026-04-28T10:00:00.000Z",
+        owner: "owner01",
+        role: "OWNER",
+      }),
+    );
+
+    useGetProjectsQueryMock.mockReturnValueOnce({
+      isLoading: true,
+      isError: false,
+    });
+
+    const { container, rerender } = render(
+      <Provider store={store}>
+        <AppSidebar />
+      </Provider>,
+    );
+
+    expect(container.querySelectorAll("button")).toHaveLength(0);
+
+    useGetProjectsQueryMock.mockReturnValueOnce({
+      isLoading: false,
+      isError: true,
+    });
+
+    rerender(
+      <Provider store={store}>
+        <AppSidebar />
+      </Provider>,
+    );
+
+    expect(container.querySelectorAll("button")).toHaveLength(0);
   });
 });

@@ -1,8 +1,13 @@
 import { LogEntry, LogLevel } from "@/entities/log/model/types";
 import { Button } from "@/shared/ui/Button";
-import { AlertTriangle } from "lucide-react";
-import { formatDateLabel, formatLargeNumber, getErrorMessage } from "@/entities/log/lib/formatters";
+import { AlertTriangle, ArrowDown, ArrowUp } from "lucide-react";
+import {
+  formatDateLabel,
+  formatLargeNumber,
+  getErrorMessage,
+} from "@/entities/log/lib/formatters";
 import { LogLevelBadge } from "@/entities/log/ui/LogLevelBadge";
+import { useMemo, useState } from "react";
 
 export function LogsTableSection({
   logs,
@@ -23,11 +28,27 @@ export function LogsTableSection({
   nextCursor: string | null;
   onLoadMore: () => void | Promise<void>;
 }) {
+  const [sortDirection, setSortDirection] = useState<"desc" | "asc">("desc");
+  const sortedLogs = useMemo(
+    () =>
+      [...logs].sort((left, right) => {
+        const leftTime = new Date(left.timestamp).getTime();
+        const rightTime = new Date(right.timestamp).getTime();
+
+        return sortDirection === "desc"
+          ? rightTime - leftTime
+          : leftTime - rightTime;
+      }),
+    [logs, sortDirection],
+  );
+
   return (
     <div className="overflow-hidden rounded-3xl border border-[#E9E9E9] bg-[#FEEB86]/20">
       <div className="flex items-center justify-between border-b border-[#E9E9E9] px-6 py-5">
         <div>
-          <h2 className="text-lg font-semibold text-[#111111]">Таблица логов</h2>
+          <h2 className="text-lg font-semibold text-[#111111]">
+            Таблица логов
+          </h2>
           <p className="mt-1 text-sm text-[#111111]/55">
             Загружено {formatLargeNumber(logs.length)} из{" "}
             {formatLargeNumber(totalCount)}
@@ -63,10 +84,30 @@ export function LogsTableSection({
           <div className="grid grid-cols-[120px_minmax(220px,1fr)_180px] gap-4 border-b border-[#E9E9E9] px-6 py-4 text-xs uppercase tracking-[0.16em] text-[#111111]/55">
             <span>Уровень</span>
             <span>Сообщение</span>
-            <span>Время</span>
+            <button
+              type="button"
+              onClick={() =>
+                setSortDirection((current) =>
+                  current === "desc" ? "asc" : "desc",
+                )
+              }
+              className="flex items-center justify-start gap-2 text-left"
+              aria-label={
+                sortDirection === "desc"
+                  ? "Сортировка по времени: сначала новые"
+                  : "Сортировка по времени: сначала старые"
+              }
+            >
+              <span>Время</span>
+              {sortDirection === "desc" ? (
+                <ArrowDown className="h-3.5 w-3.5 hover:cursor-pointer" />
+              ) : (
+                <ArrowUp className="h-3.5 w-3.5 hover:cursor-pointer" />
+              )}
+            </button>
           </div>
           <div className="max-h-[780px] overflow-y-auto">
-            {logs.map((log: LogEntry, index) => (
+            {sortedLogs.map((log: LogEntry, index) => (
               <div
                 key={`${log.timestamp}-${index}`}
                 className="grid grid-cols-[120px_minmax(220px,1fr)_180px] gap-4 border-b border-[#E9E9E9] px-6 py-4"
