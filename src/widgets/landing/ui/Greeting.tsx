@@ -23,7 +23,7 @@ function Greeting() {
           <div className={"flex flex-row gap-5"}>
             <p>Начать</p>
             <Image
-              src={"images/Vector 2.svg"}
+              src={"images/Vector 5.svg"}
               alt={"vector"}
               width={"30"}
               height={"30"}

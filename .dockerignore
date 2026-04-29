@@ -1,0 +1,8 @@
+.git
+.github
+.idea
+.next
+coverage
+node_modules
+*.log
+tsconfig.tsbuildinfo

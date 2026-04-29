@@ -22,7 +22,7 @@ describe("DashboardFilters", () => {
     message: "timeout",
     from: "2026-04-28T10:00:00.000Z",
     to: "2026-04-29T10:00:00.000Z",
-    levels: ["ERROR"] as const,
+    levels: ["ERROR"] as ("ERROR")[],
     logLevels: LOG_LEVELS,
     openCalendar: null as "from" | "to" | null,
     calendarPopoverRef: createRef<HTMLDivElement>(),
